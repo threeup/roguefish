@@ -135,6 +135,11 @@ public class InputMgr : MonoBehaviour {
             fingerCount++;
         }
         machine.MachineUpdate(Time.deltaTime);
+
+        if (!canInput && fingerCount > 0)
+        {
+            Debug.Log("no input finger");
+        }
     }
 
     void UpdateActive(float deltaTime)

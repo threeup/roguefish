@@ -49,10 +49,6 @@ public class Entity : MonoBehaviour
     {
 
     }
-    public void SetPhysics(BlockProperties prop)
-    {
-        
-    }
 
     public virtual void DestroySelf()
     {

@@ -40,7 +40,7 @@ public class Dbg : MonoBehaviour {
 		{
 	        GameObject textObject = FactoryUI.Instance.GetBigText();
 			textObject.name = "BigText"+i;
-			textObject.transform.parent = this.gameObject.transform;
+			textObject.transform.SetParent(this.gameObject.transform, false);
 			RectTransform textRect = (RectTransform)textObject.transform;
 
 			Vector2 textPos = Vector2.zero;
@@ -60,7 +60,7 @@ public class Dbg : MonoBehaviour {
 		{
 	        GameObject textObject = FactoryUI.Instance.GetLongText();
 			textObject.name = "LongText"+i;
-			textObject.transform.parent = this.gameObject.transform;
+			textObject.transform.SetParent(this.gameObject.transform, false);
 			RectTransform textRect = (RectTransform)textObject.transform;
 
 			Vector2 textPos = Vector2.zero;

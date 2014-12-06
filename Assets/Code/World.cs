@@ -48,7 +48,7 @@ public class World : MonoBehaviour {
 
     public void OnActive(object owner)
     {
-        ExpandWorldToFit(3,3);
+        
 
     }
 
@@ -57,41 +57,6 @@ public class World : MonoBehaviour {
 
     }
 
-    public void ExpandWorldToFit(int w, int h)
-    {
-        if (currentWidth >= w && currentHeight >= h)
-        {
-            return;
-        }
-        StartCoroutine(ExpandWorldRoutine(w,h));
-    }
-
-    IEnumerator ExpandWorldRoutine(int w, int h)
-    {
-        machine.SetState(GeneralState.BUSY);    
-        float floorRadius = 20.0f;
-        GameObject go = null;
-        for(int i=currentWidth; i< w; ++i)
-        {
-            for (int j=currentHeight; j < h; ++j)
-            {
-                Entity ent = FactoryEntity.Instance.GetFloor();
-                go = ent.gameObject;
-                go.transform.position = new Vector3(i*floorRadius, 0, j*floorRadius);
-                go.name = "Floor"+i+"-"+j;
-                go.transform.parent = this.gameObject.transform;
-                yield return null;//unnecessary for now
-            }
-        }
-
-        currentWidth = w;
-        currentHeight = h;
-        centerPos.x = currentWidth*floorRadius/2f;
-        centerPos.y = currentHeight*floorRadius/2f;
-        CameraMgr.Instance.MoveTo(centerPos);
-        machine.SetState(GeneralState.ACTIVE);
-        yield return null;
-    }
 
 	public Actor GetActorByActorUID(int uid)
     {
