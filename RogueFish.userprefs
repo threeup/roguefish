@@ -1,0 +1,13 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GooglePlayGames\BasicApi\Multiplayer\TurnBasedMatch.cs">
+    <Files>
+      <File FileName="Assets\GooglePlayGames\BasicApi\DummyClient.cs" Line="112" Column="24" />
+      <File FileName="Assets\GooglePlayGames\BasicApi\Multiplayer\TurnBasedMatch.cs" Line="105" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
