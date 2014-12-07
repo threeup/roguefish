@@ -54,10 +54,10 @@ public class AIAgent : MonoBehaviour
     private ActionData currentAction;
 
     private float evalTimer = 0f;
-    private float evalTimerMax = 1f;
+    public float evalTimerMax = 1f;
 
     private float fastTimer = 0f;
-    private float fastTimerMax = 0.25f;
+    public float fastTimerMax = 0.25f;
 
     public string debugString;
 
@@ -74,14 +74,21 @@ public class AIAgent : MonoBehaviour
         {
             if (currentAction == null)
             {
-                int roll = UnityEngine.Random.Range(0,4);
-                switch(roll)
+                if (actor.IsAlive())
                 {
-                    default:
-                    case 0: currentAction = CreateRandomAcross(actor); break;
-                    case 1: 
-                    case 2: currentAction = CreateDrift(actor); break;
-                    case 3: currentAction = CreateRandomWander(actor); break;
+                    int roll = UnityEngine.Random.Range(0,4);
+                    switch(roll)
+                    {
+                        default:
+                        case 0: currentAction = CreateRandomAcross(actor); break;
+                        case 1: 
+                        case 2: currentAction = CreateDrift(actor); break;
+                        case 3: currentAction = CreateRandomWander(actor); break;
+                    }
+                }
+                else
+                {
+                    currentAction = CreateDrift(actor);
                 }
                 debugString = actor.name+" "+currentAction.atype;
             }
@@ -105,9 +112,9 @@ public class AIAgent : MonoBehaviour
 
     public static ActionData CreateDrift(Actor actor)
     {
-        
+        Vector2 next = actor.currentPos + actor.velocity.normalized*20f;
         float time = UnityEngine.Random.Range(0.3f,1f);
-        return new ActionData(ActionType.WAIT, actor.currentPos, time, null, DriftUpdate);
+        return new ActionData(ActionType.WAIT, next, time, SetupWander, DriftUpdate);
     }
 
 
@@ -123,7 +130,9 @@ public class AIAgent : MonoBehaviour
     public static ActionData CreateRandomAcross(Actor actor)
     {
         Vector2 next = Vector2.zero;
-        next.x = actor.currentPos.x > 0 ? -570f : 570f;
+        float travelX = UnityEngine.Random.Range(400,1100f);
+        travelX *= (actor.currentPos.x > 0 ? -1f : 1f);
+        next.x = actor.currentPos.x + travelX;
         next.y = UnityEngine.Random.Range(-370f,370f);
         return new ActionData(ActionType.MOVE, next, 0f, SetupNormal, MovePositionUpdate);
     }   
@@ -144,6 +153,8 @@ public class AIAgent : MonoBehaviour
     {
         actor.currentSpeedX = actor.maxSpeedX*0.2f;
         actor.currentSpeedY = actor.maxSpeedY*0.2f;
+
+        actor.GoalTo(adata.pos);
         return true;
     }
 
@@ -151,13 +162,14 @@ public class AIAgent : MonoBehaviour
     {
         actor.currentSpeedX = actor.maxSpeedX;
         actor.currentSpeedY = actor.maxSpeedY;
+
+        actor.GoalTo(adata.pos);
         return true;
     }
 
     public static bool MovePositionUpdate(float deltaTime, ActionData adata, Actor actor)
     {
         float min = 1f;
-        actor.GoalTo(adata.pos);
         return (actor.currentPos - adata.pos).sqrMagnitude < min*min;
     }
 

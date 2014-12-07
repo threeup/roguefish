@@ -52,4 +52,24 @@ public class FishActor : Actor
         (img.transform as RectTransform).eulerAngles = eulers;
         
     }
+
+
+    protected override void CollideWith(GameObject other)
+    {
+        Actor otherActor = other.GetComponent<Actor>();
+        if (otherActor != null)
+        {
+            //Debug.Log(this.name+" bump "+otherActor.name);
+            return;
+        }
+        Weapon otherWeapon = other.GetComponent<Weapon>();
+        if (otherWeapon)
+        {
+            this.AP -= otherWeapon.APDMG;
+            if (this.AP < 0)
+            {
+                otherWeapon.AddAttack(this);
+            }
+        }
+    }
 }

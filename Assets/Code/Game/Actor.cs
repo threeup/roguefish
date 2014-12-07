@@ -64,6 +64,26 @@ public class Actor : Entity
 
     }
 
+    void OnCollisionStay(Collision collisionInfo) {
+        foreach (ContactPoint contact in collisionInfo.contacts) {
+            Debug.DrawRay(contact.point, contact.normal*10f, Color.white);
+        }
+        CollideWith(collisionInfo.gameObject);
+    }
+
+    protected virtual void CollideWith(GameObject other)
+    {
+        Actor otherActor = other.GetComponent<Actor>();
+        if (otherActor != null)
+        {
+            Debug.Log(this.name+" bump "+otherActor.name);
+        }
+        else
+        {
+            Debug.Log(this.name+" hit by "+other.name);   
+        }
+    }
+
 }
 
 public class ActorInventory : MonoBehaviour

@@ -55,7 +55,7 @@ public class BoatActor : Actor
         hook.weaponName = "Hook";
         hook.WarpTo(this.currentPos);
         hook.transform.localScale = Vector3.one*1f;
-        hook.transform.SetParent(World.Instance.PlayField.transform, false);
+        World.Instance.ParentToField(hook.transform);
         hook.owner = this;
         return true;
     }

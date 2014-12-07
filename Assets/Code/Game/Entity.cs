@@ -19,7 +19,9 @@ public class Entity : MonoBehaviour
     public float currentSpeedY = 1f;
     public float maxSpeedX = 1f;
     public float maxSpeedY = 1f;
-    protected Vector2 velocity = Vector2.zero;
+    public Vector2 velocity = Vector2.zero;
+
+    public Entity attachedParent = null;
 
     void Awake()
     {
@@ -52,13 +54,22 @@ public class Entity : MonoBehaviour
             }
         }
         Vector2 diff = (desiredPos-currentPos);
-        float sqrDiff = diff.sqrMagnitude;
-        if (sqrDiff > 0.01f)
+        if (attachedParent != null)
         {
+            SetPos(attachedParent.currentPos);
             velocity = diff;
-            velocity.x = Mathf.Clamp(velocity.x, -maxSpeedX, maxSpeedX) * deltaTime*5;
-            velocity.y = Mathf.Clamp(velocity.y, -maxSpeedY, maxSpeedY) * deltaTime*5;
-            SetPos(currentPos+velocity);
+        }
+        else
+        {
+            
+            float sqrDiff = diff.sqrMagnitude;
+            if (sqrDiff > 0.01f)
+            {
+                velocity = diff;
+                velocity.x = Mathf.Clamp(velocity.x, -maxSpeedX, maxSpeedX) * deltaTime;
+                velocity.y = Mathf.Clamp(velocity.y, -maxSpeedY, maxSpeedY) * deltaTime;
+                SetPos(currentPos+velocity);
+            }
         }
     }
 
@@ -94,5 +105,10 @@ public class Entity : MonoBehaviour
     {
         Reset();
         Debug.LogWarning("Cant destroy generic");
+    }
+
+    public void AttachTo(Entity other)
+    {
+        attachedParent = other;
     }
 }

@@ -12,6 +12,8 @@ public class World : MonoBehaviour {
     public static World Instance;
     public GeneralMachine machine;
 
+    public int level = 0;
+
     void Start()
     {
         if (Instance != null)
@@ -48,48 +50,62 @@ public class World : MonoBehaviour {
         Actor boat = MakeBoat();
         UserMgr.Instance.AssignActor(0, boat);
 
-        for(int i=0; i<20; ++i)
-        {
-            Actor fish = MakeFish(i);
-            UserMgr.Instance.AssignActor(1, fish);
-        }
-        
+        AdvanceLevel();
+
         machine.SetState(GeneralState.ACTIVE);   
     }
 
     private Actor MakeBoat()
     {
-        EntityProperties boatProp = new EntityProperties();
-        boatProp.HP = 10;
-        boatProp.imgProp = new ImageProperties(Constants.BoatRect);
-        Actor boatActor = FactoryEntity.Instance.GetBoatActor(boatProp);
-        boatActor.name = "Boat";
-        boatActor.WarpTo(Vector3.up*256f);
-        boatActor.transform.localScale = Vector3.one*2f;
-        boatActor.transform.SetParent(playField.transform, false);
-        return boatActor;
+        EntityProperties eprop = new EntityProperties();
+        eprop.HP = 10;
+        eprop.imgProp = new ImageProperties(Constants.BoatRect);
+        Actor actor = FactoryEntity.Instance.GetBoatActor(eprop);
+        actor.name = "Boat";
+        actor.WarpTo(Vector3.up*256f);
+        actor.transform.localScale = Vector3.one*2f;
+        actor.transform.SetParent(playField.transform, false);
+        return actor;
     }
 
     private Actor MakeFish(int i)
     {
-        EntityProperties fishProp = new EntityProperties();
-        fishProp.HP = 10;
-        fishProp.imgProp = new ImageProperties(Constants.FishRect);
-        Actor fishActor = FactoryEntity.Instance.GetFishActor(fishProp);
-        fishActor.name = "Fish"+i;
+        EntityProperties eprop = new EntityProperties();
+        eprop.HP = 10;
+        eprop.imgProp = new ImageProperties(Constants.FishRect);
+        Actor actor = FactoryEntity.Instance.GetGenericActor(eprop);
+        actor.name = "Fish"+i;
         Vector2 pos = Vector2.zero;
         pos.x = (i%2 == 0 ? 1f : -1f)*512f;
         pos.y = UnityEngine.Random.Range(-300f, 300f);
-        fishActor.WarpTo(pos);
+        actor.WarpTo(pos);
         pos.x = -pos.x;
-        fishActor.GoalTo(pos);
-        fishActor.transform.localScale = Vector3.one*0.75f;
-        fishActor.transform.SetParent(playField.transform, false);
+        actor.GoalTo(pos);
+        actor.transform.localScale = Vector3.one*0.75f;
+        actor.transform.SetParent(playField.transform, false);
 
-        AIAgent fishAI = fishActor.gameObject.AddComponent<AIAgent>();
-        fishAI.Initialize(fishActor);
-        return fishActor;
+        AIAgent fishAI = actor.gameObject.AddComponent<AIAgent>();
+        fishAI.Initialize(actor);
+        return actor;
     }
+
+    private Actor MakeButton(string name, float posX)
+    {
+        EntityProperties eprop = new EntityProperties();
+        eprop.HP = 1;
+        eprop.imgProp = new ImageProperties(Constants.ButtonRect);
+        Actor buttonActor = FactoryEntity.Instance.GetGenericActor(eprop);
+        actor.name = "Button"+name;
+        Vector2 pos = Vector2.zero;
+        pos.x = posX;
+        pos.y = -200f;
+        actor.WarpTo(pos);
+        actor.transform.localScale = Vector3.one*0.75f;
+        actor.transform.SetParent(playField.transform, false);
+
+        return actor;
+    }
+
 
     public void OnActive(object owner)
     {
@@ -131,6 +147,32 @@ public class World : MonoBehaviour {
         foreach(Entity entity in entities)
         {
             entity.UpdateEntity(deltaTime);
+        }
+    }
+
+    public void ParentToField(Transform transform)
+    {
+        transform.SetParent(playField.transform, false);
+        Utilities.SortChildren(playField.gameObject);
+    }
+
+    void AdvanceLevel()
+    {
+        level++;
+        if (level == 1)
+        {
+            Actor start = MakeButton("Start", -100);
+            UserMgr.Instance.AssignActor(0, start);
+            Actor exit = MakeButton("Exit", 150);
+            UserMgr.Instance.AssignActor(0, exit);
+        }
+        if (level == 2)
+        {
+            for(int i=0; i<20; ++i)
+            {
+                Actor fish = MakeFish(i);
+                UserMgr.Instance.AssignActor(2, fish);
+            }
         }
     }
 }
