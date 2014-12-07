@@ -1,0 +1,20 @@
+Initialize engine version: 4.6.0f3 (30840d631a27)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: AMD Radeon HD 5800 Series (ID=0x6899)
+    Vendor:   ATI
+    VRAM:     1005 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: I:\w\roguefish\target\roguefish_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading I:\w\roguefish\target\roguefish_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: I:\w\roguefish\target\roguefish_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading I:\w\roguefish\target\roguefish_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: I:\w\roguefish\target\roguefish_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading I:\w\roguefish\target\roguefish_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.053 seconds
+desktop: 1920x1080 60Hz; virtual: 3600x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: I:\w\roguefish\target\roguefish_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: I:\w\roguefish\target\roguefish_Data\Managed\System.dll (this message is harmless)

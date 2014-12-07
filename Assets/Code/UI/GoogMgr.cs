@@ -81,7 +81,7 @@ public class GoogMgr {
 
 	public void OnChange(int val	)
 	{
-		Dbg.Instance.SetLabel(0, "Goog "+((GoogState)machine.GetActiveState()).ToString());
+        Dbg.Instance.SetLabel(2, "Goog "+((GoogState)machine.GetActiveState()).ToString());
 	}
 
     public void OnNotReady(object owner)

@@ -8,6 +8,7 @@ public class UserMgr : MonoBehaviour {
 
     public static UserMgr Instance;
     public List<User> users;
+    private User localUser;
 
     void Start()
     {
@@ -20,18 +21,31 @@ public class UserMgr : MonoBehaviour {
 
     public void Initialize()
     {
-        AddUser(0);
-        AddUser(1);
-        AddUser(2);
+        localUser = AddUser(0);
+
 
     }
 
-    public void AddUser(int idx)
+    public User AddUser(int idx)
     {
         GameObject go = new GameObject();
         go.name = "User"+idx;
         User user = go.AddComponent<User>();
         user.Initialize();
         users.Add(user);
+        return user;
     }
+
+    public void AssignActor(int idx, Actor actor)
+    {
+        if (idx < users.Count)
+        {
+            users[idx].actor = actor;
+        }
+    }
+
+    public void Input(int count, Vector2[] current, Vector2[] source)
+    {
+        localUser.ProcessInput(count, current, source);
+    } 
 }

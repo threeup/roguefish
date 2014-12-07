@@ -72,10 +72,10 @@ public class InputMgr : MonoBehaviour {
         isInit = true;
     }
     
-	public void OnChange(int val	)
-	{
-		
-	}
+	public void OnChange(int val   )
+    {
+        Dbg.Instance.SetLabel(0, "Inp "+((InputState)machine.GetActiveState()).ToString());
+    }
 
     public void OnNotReady(object owner)
     {
@@ -110,48 +110,48 @@ public class InputMgr : MonoBehaviour {
             return;
         }
 
-        
-        fingerCount = 0;
-        foreach (Touch touch in Input.touches) {
-            if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
+        if (canInput)
+        {
+            fingerCount = 0;
+            foreach (Touch touch in Input.touches) {
+                if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
+                {
+                    touchCurrentPos[fingerCount] = touch.position;
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        touchStartPos[fingerCount] = touchCurrentPos[fingerCount];
+                    }
+                    fingerCount++;
+
+                }
+            }
+            bool shouldMouseDown = Input.GetMouseButton(0);
+            if (shouldMouseDown)
             {
-                touchCurrentPos[fingerCount] = touch.position;
-                if (touch.phase == TouchPhase.Began)
+                touchCurrentPos[fingerCount] = Input.mousePosition;
+                if (mouseDown == false)
                 {
                     touchStartPos[fingerCount] = touchCurrentPos[fingerCount];
                 }
                 fingerCount++;
-
             }
-        }
-        bool shouldMouseDown = Input.GetMouseButton(0);
-        if (shouldMouseDown)
-        {
-            touchCurrentPos[fingerCount] = Input.mousePosition;
-            if (mouseDown == false)
-            {
-                touchStartPos[fingerCount] = touchCurrentPos[fingerCount];
-            }
-            fingerCount++;
         }
         machine.MachineUpdate(Time.deltaTime);
-
-        if (!canInput && fingerCount > 0)
-        {
-            Debug.Log("no input finger");
-        }
     }
 
     void UpdateActive(float deltaTime)
     {
+        UserMgr.Instance.Input(fingerCount, touchCurrentPos, touchStartPos);
         if (fingerCount == 0)
         {
-            FinishActive();
+            machine.SetState(InputState.READY);
         }
+        
     }
 
     void UpdateReady(float deltaTime)
     {
+        UserMgr.Instance.Input(fingerCount, touchCurrentPos, touchStartPos);
         if (fingerCount > 0)
         {
             machine.SetState(InputState.ACTIVE);
@@ -166,16 +166,6 @@ public class InputMgr : MonoBehaviour {
         }
     }
 
-    private void CheckFingerZone()
-    {
-
-       
-    }
-
-	private void FinishActive()
-    {
-       
-    }
 
     public Vector2 Norm(Vector2 vec)
     {

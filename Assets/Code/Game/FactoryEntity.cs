@@ -6,17 +6,11 @@ using System.Collections.Generic;
 public class FactoryEntity : MonoBehaviour {
 
     public static FactoryEntity Instance;
-    public Entity floorPrefab;
-    public Queue<Entity> floorPool;
 
-
-    public Entity entityPrefab;
-    public Queue<Entity> entityPool;
     public Actor actorPrefab;
     public Queue<Actor> actorPool;
-
-    public Shader entityShaderOpaque;
-    public Shader entityShaderTrnsp;
+    public Weapon weaponPrefab;
+    public Queue<Weapon> weaponPool;
 
     void Start()
     {
@@ -25,25 +19,16 @@ public class FactoryEntity : MonoBehaviour {
             Debug.LogError("FactoryEntity Already exists");
         }
         Instance = this;
-        floorPool = new Queue<Entity>();
-        entityPool = new Queue<Entity>();
         actorPool = new Queue<Actor>();
+        weaponPool = new Queue<Weapon>();
     }
 
-    public Entity GetFloor()
-    {
-        if (floorPool.Count > 0) {
-            return floorPool.Dequeue();
-        } else {
-            return Instantiate(floorPrefab) as Entity;
-        }
-    }
 
-    public Actor GetActor(ActorProperties prop)
+    public Actor GetActor(EntityProperties prop)
     {
         Actor result = GetActor();
-        result.SetMaterial(prop.mat);
-        result.SetPhysics(prop);
+        result.SetImage(prop.imgProp);
+        result.SetPhysics(prop.projProp);
         return result;
     }
 
@@ -56,32 +41,32 @@ public class FactoryEntity : MonoBehaviour {
         }
     }
 
-    public void PoolActor(Actor act)
+    public void PoolActor(Actor inp)
     {
-        actorPool.Enqueue(act);
+        actorPool.Enqueue(inp);
     }
 
-    public Entity GetProjectile(ProjectileProperties prop)
+
+
+    public Weapon GetWeapon(EntityProperties prop)
     {
-        Entity result = GetEntity();
-        result.SetMaterial(prop.mat);
-        result.SetPhysics(prop);
+        Weapon result = GetWeapon();
+        result.SetImage(prop.imgProp);
+        result.SetPhysics(prop.projProp);
         return result;
     }
 
-    public Entity GetEntity()
+    public Weapon GetWeapon()
     {
-        if (entityPool.Count > 0) {
-            return entityPool.Dequeue();
+        if (weaponPool.Count > 0) {
+            return weaponPool.Dequeue();
         } else {
-            return Instantiate(entityPrefab) as Entity;
+            return Instantiate(weaponPrefab) as Weapon;
         }
     }
 
-    public void PoolEntity(Entity ent)
+    public void PoolWeapon(Weapon inp)
     {
-        entityPool.Enqueue(ent);
+        weaponPool.Enqueue(inp);
     }
-
-    
 }

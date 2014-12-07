@@ -67,9 +67,12 @@ public class GameMgr : MonoBehaviour {
 
     public void InitGoog()
     {
-        googMgr = new GoogMgr();
-        googMgr.Initialize();
-        googMgr.Authenticate();
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            googMgr = new GoogMgr();
+            googMgr.Initialize();
+            googMgr.Authenticate();
+        }
 	}
 
 	public void InitDebug()

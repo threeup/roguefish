@@ -20,7 +20,6 @@ public class CameraMgr : MonoBehaviour {
     public CameraMachine machine;
 
     private bool isInit = false;
-    private bool moveReady = false;
 
     void Start()
     {
@@ -48,13 +47,13 @@ public class CameraMgr : MonoBehaviour {
     
     public void OnNotReady(object owner)
     {
-        moveReady = false;
+        
     }
 
 
     public void OnReady(object owner)
     {
-        moveReady = true;
+        
     }
 
     public void OnActive(object owner)

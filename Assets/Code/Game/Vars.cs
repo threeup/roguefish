@@ -3,13 +3,32 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
+
+[System.Serializable]
+public struct EntityProperties
+{
+    public ImageProperties imgProp; 
+    public ProjectileProperties projProp;
+    public int HP;
+}
+
+
+public struct ImageProperties
+{
+    public Rect rect;
+
+    public ImageProperties(Rect rect)
+    {
+        this.rect = rect;
+    }
+}
+
+
 public enum CommandType
 {
-    SHOOT,
-    WAIT,
-    FORWARD,
-    ROTATELEFT,
-    ROTATERIGHT,
+    HOOKDOWN,
+    HOOKUP,
     STRAFELEFT,
     STRAFERIGHT,
 }
