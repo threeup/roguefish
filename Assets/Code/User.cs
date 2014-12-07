@@ -5,13 +5,14 @@ using System.Collections.Generic;
 
 public class User : MonoBehaviour
 {
-    public Actor actor;
+    public BoatActor boat;
+    public FishActor fish;
     private List<UIProperties> commandUI;
     private bool commandDirty = false;
 
     public void Initialize()
     {
-        actor = null;
+        boat = null;
         commandUI = new List<UIProperties>();
         commandDirty = true;
 
@@ -37,16 +38,16 @@ public class User : MonoBehaviour
 
     public void ProcessInput(int count, Vector2[] current, Vector2[] source)
     {
-        if (actor != null)
+        if (boat != null)
         {
             if (count > 0)
             {
                 Vector2 fieldPos = World.Instance.ScreenToField(current[0]);
-                actor.ProcessInput(fieldPos);
+                boat.ProcessInput(fieldPos);
             }
             else
             {
-                actor.ProcessInput(null);
+                boat.ProcessInput(null);
             }
         }
     }

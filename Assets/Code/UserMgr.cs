@@ -9,6 +9,7 @@ public class UserMgr : MonoBehaviour {
     public static UserMgr Instance;
     public List<User> users;
     private User localUser;
+    private User aiUser;
 
     void Start()
     {
@@ -22,6 +23,7 @@ public class UserMgr : MonoBehaviour {
     public void Initialize()
     {
         localUser = AddUser(0);
+        aiUser = AddUser(1);
 
 
     }
@@ -40,7 +42,8 @@ public class UserMgr : MonoBehaviour {
     {
         if (idx < users.Count)
         {
-            users[idx].actor = actor;
+            users[idx].boat = actor as BoatActor;
+            users[idx].fish = actor as FishActor;
         }
     }
 

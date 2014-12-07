@@ -15,9 +15,11 @@ public class Entity : MonoBehaviour
     public float timeToLive;
     public Image img = null;
 
+    public float currentSpeedX = 1f;
+    public float currentSpeedY = 1f;
     public float maxSpeedX = 1f;
     public float maxSpeedY = 1f;
-    private Vector2 velolcity = Vector2.zero;
+    protected Vector2 velocity = Vector2.zero;
 
     void Awake()
     {
@@ -28,6 +30,8 @@ public class Entity : MonoBehaviour
 
     protected virtual void Initialize()
     {
+        currentSpeedX = maxSpeedX;
+        currentSpeedY = maxSpeedY;
         World.Instance.Register(this);
     }
 
@@ -51,10 +55,10 @@ public class Entity : MonoBehaviour
         float sqrDiff = diff.sqrMagnitude;
         if (sqrDiff > 0.01f)
         {
-            velolcity = diff;
-            velolcity.x = Mathf.Clamp(velolcity.x, -maxSpeedX, maxSpeedX) * deltaTime;
-            velolcity.y = Mathf.Clamp(velolcity.y, -maxSpeedY, maxSpeedY) * deltaTime;
-            SetPos(currentPos+velolcity);
+            velocity = diff;
+            velocity.x = Mathf.Clamp(velocity.x, -maxSpeedX, maxSpeedX) * deltaTime*5;
+            velocity.y = Mathf.Clamp(velocity.y, -maxSpeedY, maxSpeedY) * deltaTime*5;
+            SetPos(currentPos+velocity);
         }
     }
 
@@ -72,10 +76,10 @@ public class Entity : MonoBehaviour
     public void WarpTo(Vector2 pos)
     {
         SetPos(pos);
-        SetDesired(pos);
+        GoalTo(pos);
     }
 
-    public void SetDesired(Vector2 pos)
+    public void GoalTo(Vector2 pos)
     {
         this.desiredPos = pos;   
     }
@@ -89,6 +93,6 @@ public class Entity : MonoBehaviour
     public virtual void DestroySelf()
     {
         Reset();
-        Debug.LogWarning("Cant destroy entity");
+        Debug.LogWarning("Cant destroy generic");
     }
 }

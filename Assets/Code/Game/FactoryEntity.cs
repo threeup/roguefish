@@ -7,8 +7,10 @@ public class FactoryEntity : MonoBehaviour {
 
     public static FactoryEntity Instance;
 
-    public Actor actorPrefab;
-    public Queue<Actor> actorPool;
+    public Actor fishPrefab;
+    public Actor boatPrefab;
+    public Queue<Actor> fishPool;
+    public Queue<Actor> boatPool;
     public Weapon weaponPrefab;
     public Queue<Weapon> weaponPool;
 
@@ -19,31 +21,55 @@ public class FactoryEntity : MonoBehaviour {
             Debug.LogError("FactoryEntity Already exists");
         }
         Instance = this;
-        actorPool = new Queue<Actor>();
+        fishPool = new Queue<Actor>();
+        boatPool = new Queue<Actor>();
         weaponPool = new Queue<Weapon>();
     }
 
 
-    public Actor GetActor(EntityProperties prop)
+    public Actor GetFishActor(EntityProperties prop)
     {
-        Actor result = GetActor();
+        Actor result = GetFishActor();
         result.SetImage(prop.imgProp);
         result.SetPhysics(prop.projProp);
         return result;
     }
 
-    public Actor GetActor()
+    public Actor GetFishActor()
     {
-        if (actorPool.Count > 0) {
-            return actorPool.Dequeue();
+        if (fishPool.Count > 0) {
+            return fishPool.Dequeue();
         } else {
-            return Instantiate(actorPrefab) as Actor;
+            return Instantiate(fishPrefab) as Actor;
         }
     }
 
-    public void PoolActor(Actor inp)
+    public void PoolActor(FishActor inp)
     {
-        actorPool.Enqueue(inp);
+        fishPool.Enqueue(inp);
+    }
+
+
+    public Actor GetBoatActor(EntityProperties prop)
+    {
+        Actor result = GetBoatActor();
+        result.SetImage(prop.imgProp);
+        result.SetPhysics(prop.projProp);
+        return result;
+    }
+
+    public Actor GetBoatActor()
+    {
+        if (boatPool.Count > 0) {
+            return boatPool.Dequeue();
+        } else {
+            return Instantiate(boatPrefab) as Actor;
+        }
+    }
+
+    public void PoolActor(BoatActor inp)
+    {
+        boatPool.Enqueue(inp);
     }
 
 
