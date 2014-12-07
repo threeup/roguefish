@@ -11,7 +11,6 @@ public class Actor : Entity
     public AIAgent ai = null;
     public int HP = 1;
     public int AP = 1;
-    public int RP = 1;
     public Item CurrentItem = null;
     public ActorInventory inventory = null;
     public ThreatList threatList = null;
@@ -34,6 +33,7 @@ public class Actor : Entity
 
     public override void UpdateEntity(float deltaTime)
     {
+
         if (ai != null)
         {
             ai.UpdateAgent(deltaTime);
@@ -44,7 +44,8 @@ public class Actor : Entity
 
     public void SetupActor(EntityProperties prop)
     {
-        HP = prop.HP;        
+        HP = prop.hp;    
+        AP = prop.ap;    
     }
 
 

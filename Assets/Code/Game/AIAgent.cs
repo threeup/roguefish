@@ -112,7 +112,7 @@ public class AIAgent : MonoBehaviour
 
     public static ActionData CreateDrift(Actor actor)
     {
-        Vector2 next = actor.currentPos + actor.velocity.normalized*20f;
+        Vector2 next = actor.currentPos + actor.Velocity.normalized*20f;
         float time = UnityEngine.Random.Range(0.3f,1f);
         return new ActionData(ActionType.WAIT, next, time, SetupWander, DriftUpdate);
     }
@@ -151,8 +151,7 @@ public class AIAgent : MonoBehaviour
 
     public static bool SetupWander(float deltaTime, ActionData adata, Actor actor)
     {
-        actor.currentSpeedX = actor.maxSpeedX*0.2f;
-        actor.currentSpeedY = actor.maxSpeedY*0.2f;
+        actor.lowThresh = 6;
 
         actor.GoalTo(adata.pos);
         return true;
@@ -160,8 +159,7 @@ public class AIAgent : MonoBehaviour
 
     public static bool SetupNormal(float deltaTime, ActionData adata, Actor actor)
     {
-        actor.currentSpeedX = actor.maxSpeedX;
-        actor.currentSpeedY = actor.maxSpeedY;
+        actor.lowThresh = 0;
 
         actor.GoalTo(adata.pos);
         return true;

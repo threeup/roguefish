@@ -47,10 +47,7 @@ public class BoatActor : Actor
 
     public bool CreateWeapon()
     {
-        EntityProperties hookProp = new EntityProperties();
-        hookProp.HP = 10;
-        hookProp.imgProp = new ImageProperties(Constants.HookRect);
-        hook = FactoryEntity.Instance.GetWeapon(hookProp);
+        hook = FactoryEntity.Instance.GetWeapon(Constants.HookData);
         hook.name = "Hook";
         hook.weaponName = "Hook";
         hook.WarpTo(this.currentPos);

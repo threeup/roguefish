@@ -57,10 +57,7 @@ public class World : MonoBehaviour {
 
     private Actor MakeBoat()
     {
-        EntityProperties eprop = new EntityProperties();
-        eprop.HP = 10;
-        eprop.imgProp = new ImageProperties(Constants.BoatRect);
-        Actor actor = FactoryEntity.Instance.GetBoatActor(eprop);
+        Actor actor = FactoryEntity.Instance.GetBoatActor(Constants.BoatData);
         actor.name = "Boat";
         actor.WarpTo(Vector3.up*256f);
         actor.transform.localScale = Vector3.one*2f;
@@ -68,12 +65,9 @@ public class World : MonoBehaviour {
         return actor;
     }
 
-    private Actor MakeFish(int i)
+    private Actor MakeFish(int i, EntityProperties fishData)
     {
-        EntityProperties eprop = new EntityProperties();
-        eprop.HP = 10;
-        eprop.imgProp = new ImageProperties(Constants.FishRect);
-        Actor actor = FactoryEntity.Instance.GetNormalActor(eprop);
+        Actor actor = FactoryEntity.Instance.GetNormalActor(fishData);
         actor.name = "Fish"+i;
         Vector2 pos = Vector2.zero;
         pos.x = (i%2 == 0 ? 1f : -1f)*512f;
@@ -89,11 +83,11 @@ public class World : MonoBehaviour {
         return actor;
     }
 
-    private Actor MakeButton(string name, Rect coord, Vector2 pos)
+    private Actor MakeButton(string name, ImageProperties imgProp, Vector2 pos)
     {
-        EntityProperties eprop = new EntityProperties();
-        eprop.HP = 1;
-        eprop.imgProp = new ImageProperties(coord);
+        EntityProperties eprop = Constants.FishData;
+        eprop.hp = 1;
+        eprop.imgProp = imgProp;
         Actor actor = FactoryEntity.Instance.GetNormalActor(eprop);
         actor.name = "Button"+name;
         actor.WarpTo(pos);
@@ -154,18 +148,34 @@ public class World : MonoBehaviour {
         level++;
         if (level == 1)
         {
-            Actor start = MakeButton("Start", Constants.StartRect, new Vector2(-100,100));
+            Actor start = MakeButton("Start", Constants.StartImgData, new Vector2(-100,100));
             start.OnAttach = GoStart;
             UserMgr.Instance.AssignActor(0, start);
-            Actor exit = MakeButton("Exit", Constants.QuitRect, new Vector2(100,100));
+            Actor exit = MakeButton("Exit", Constants.QuitImgData, new Vector2(100,100));
             exit.OnAttach = GoExit;
             UserMgr.Instance.AssignActor(0, exit);
         }
         if (level == 2)
         {
-            for(int i=0; i<20; ++i)
+            int i=0;
+            for(; i<8; ++i)
             {
-                Actor fish = MakeFish(i);
+                Actor fish = MakeFish(i, Constants.FishData);
+                UserMgr.Instance.AssignActor(2, fish);
+            }
+            for(; i<12; ++i)
+            {
+                Actor fish = MakeFish(i, Constants.AngelFishData);
+                UserMgr.Instance.AssignActor(2, fish);
+            }
+            for(; i<15; ++i)
+            {
+                Actor fish = MakeFish(i, Constants.BrownFishData);
+                UserMgr.Instance.AssignActor(2, fish);
+            }
+            for(; i<18; ++i)
+            {
+                Actor fish = MakeFish(i, Constants.TurtleData);
                 UserMgr.Instance.AssignActor(2, fish);
             }
         }

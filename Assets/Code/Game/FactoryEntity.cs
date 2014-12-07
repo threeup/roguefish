@@ -31,7 +31,7 @@ public class FactoryEntity : MonoBehaviour {
     {
         Actor result = GetNormalActor();
         result.SetImage(prop.imgProp);
-        result.SetPhysics(prop.projProp);
+        result.SetPhysics(prop);
         return result;
     }
 
@@ -54,7 +54,7 @@ public class FactoryEntity : MonoBehaviour {
     {
         Actor result = GetBoatActor();
         result.SetImage(prop.imgProp);
-        result.SetPhysics(prop.projProp);
+        result.SetPhysics(prop);
         return result;
     }
 
@@ -78,7 +78,7 @@ public class FactoryEntity : MonoBehaviour {
     {
         Weapon result = GetWeapon();
         result.SetImage(prop.imgProp);
-        result.SetPhysics(prop.projProp);
+        result.SetPhysics(prop);
         return result;
     }
 

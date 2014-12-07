@@ -13,8 +13,6 @@ public class Weapon : Entity
     public Actor owner;
     public int HP = 1;
     public int AP = 1;
-    public int RP = 1;
-
     public int HPDMG = 1;
     public int APDMG = 1;
 

@@ -5,15 +5,6 @@ using System.Collections.Generic;
 
 
 
-[System.Serializable]
-public struct EntityProperties
-{
-    public ImageProperties imgProp; 
-    public ProjectileProperties projProp;
-    public int HP;
-}
-
-
 public struct ImageProperties
 {
     public Rect rect;
@@ -42,26 +33,52 @@ public struct CommandProperties
 
 }
 
-public enum ProjectileType
+[System.Serializable]
+public enum PropType
 {
+    BOAT,
     HOOK,
+    FISH,
+    TURT,
+    BOOT,
+    WHAL,
     RAIN,
     LIGHTNING,
 }
 
 
 [System.Serializable]
-public struct ProjectileProperties
+public struct EntityProperties
 {
-    public string name;
-    public ProjectileType type;
-    public Material mat;
+    public ImageProperties imgProp; 
+    public PropType ptype;
+    public int hp;
+    public int ap;
+    public int rp;
+    public float rpregen;
     public float mass;
     public float radius;
-    public Vector2 vel;
+    public Vector2 highVel;
+    public Vector2 lowVel;
+    public float angularSpeed;
+
+    public EntityProperties(ImageProperties imgProp, PropType ptype, int hp, int ap, int rp, float rpregen, float mass, float radius, Vector2 highVel, Vector2 lowVel, float angularSpeed)
+    {
+        this.imgProp = imgProp;        
+        this.ptype = ptype;        
+        this.hp = hp;
+        this.ap = ap;
+        this.rp = rp;
+        this.mass = mass;        
+        this.radius = radius;        
+        this.highVel = highVel;        
+        this.lowVel = lowVel;        
+        this.angularSpeed = angularSpeed;        
+        this.rpregen = rpregen;        
+    }
 }
 
-
+/*
 public class Vars : MonoBehaviour {
 
     public static Vars Instance;
@@ -94,3 +111,4 @@ public class Vars : MonoBehaviour {
 
     
 }
+*/

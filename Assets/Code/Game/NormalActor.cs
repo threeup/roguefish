@@ -35,9 +35,9 @@ public class NormalActor : Actor
 
     void UpdateOrientation()
     {
-        Vector2 dir = velocity.normalized;
+        Vector2 dir = Velocity.normalized;
         Vector3 eulers = Vector3.zero;
-        if (Mathf.Abs(velocity.x) > 0.1f)
+        if (Mathf.Abs(Velocity.x) > 0.1f)
         {
             if (dir.x > 0f)
             {
@@ -47,10 +47,9 @@ public class NormalActor : Actor
             {
                 eulers.y = 0f;   
             }
-        }
-        eulers.z = -dir.y*180f/Mathf.PI;
-        (img.transform as RectTransform).eulerAngles = eulers;
-        
+            eulers.z = -dir.y*180f/Mathf.PI;
+            (img.transform as RectTransform).eulerAngles = eulers;
+        }        
     }
 
 
