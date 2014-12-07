@@ -60,4 +60,39 @@ public class BoatActor : Actor
         return true;
     }
 
+
+    protected override void CollideWith(GameObject other)
+    {
+        if (!isValid)
+        {
+            return;
+        }
+        Actor otherActor = other.GetComponent<Actor>();
+        if (otherActor != null)
+        {
+            //Debug.Log(this.name+" bump "+otherActor.name);
+            return;
+        }
+        Weapon otherWeapon = other.GetComponent<Weapon>();
+        if (otherWeapon)
+        {
+            if (otherWeapon == hook)
+            {
+                Actor hookedActor = hook.Pop();
+                if (hookedActor != null)
+                {
+                    Debug.Log("Caught"+hookedActor);
+                }
+            }
+            else
+            {
+                this.AP -= otherWeapon.APDMG;
+                if (this.AP < 0)
+                {
+                    otherWeapon.AddAttack(this);
+                }
+            }
+        }
+    }
+
 }

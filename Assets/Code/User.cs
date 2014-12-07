@@ -6,13 +6,14 @@ using System.Collections.Generic;
 public class User : MonoBehaviour
 {
     public BoatActor boat;
-    public FishActor fish;
+    public List<NormalActor> actorList;
     private List<UIProperties> commandUI;
     private bool commandDirty = false;
 
     public void Initialize()
     {
         boat = null;
+        actorList = new List<NormalActor>();
         commandUI = new List<UIProperties>();
         commandDirty = true;
 

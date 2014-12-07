@@ -7,9 +7,9 @@ public class FactoryEntity : MonoBehaviour {
 
     public static FactoryEntity Instance;
 
-    public Actor genericPrefab;
+    public Actor normalPrefab;
     public Actor boatPrefab;
-    public Queue<Actor> genericPool;
+    public Queue<Actor> normalPool;
     public Queue<Actor> boatPool;
     public Weapon weaponPrefab;
     public Queue<Weapon> weaponPool;
@@ -21,32 +21,32 @@ public class FactoryEntity : MonoBehaviour {
             Debug.LogError("FactoryEntity Already exists");
         }
         Instance = this;
-        genericPool = new Queue<Actor>();
+        normalPool = new Queue<Actor>();
         boatPool = new Queue<Actor>();
         weaponPool = new Queue<Weapon>();
     }
 
 
-    public Actor GetGenericActor(EntityProperties prop)
+    public Actor GetNormalActor(EntityProperties prop)
     {
-        Actor result = GetGenericActor();
+        Actor result = GetNormalActor();
         result.SetImage(prop.imgProp);
         result.SetPhysics(prop.projProp);
         return result;
     }
 
-    public Actor GetGenericActor()
+    public Actor GetNormalActor()
     {
-        if (genericPool.Count > 0) {
-            return genericPool.Dequeue();
+        if (normalPool.Count > 0) {
+            return normalPool.Dequeue();
         } else {
-            return Instantiate(genericPrefab) as Actor;
+            return Instantiate(normalPrefab) as Actor;
         }
     }
 
-    public void PoolActor(FishActor inp)
+    public void PoolActor(NormalActor inp)
     {
-        genericPool.Enqueue(inp);
+        normalPool.Enqueue(inp);
     }
 
 

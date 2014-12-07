@@ -68,7 +68,10 @@ public class Actor : Entity
         foreach (ContactPoint contact in collisionInfo.contacts) {
             Debug.DrawRay(contact.point, contact.normal*10f, Color.white);
         }
-        CollideWith(collisionInfo.gameObject);
+        if (collider.enabled && collisionInfo.collider.enabled)
+        {
+            CollideWith(collisionInfo.gameObject);
+        }
     }
 
     protected virtual void CollideWith(GameObject other)
@@ -76,11 +79,11 @@ public class Actor : Entity
         Actor otherActor = other.GetComponent<Actor>();
         if (otherActor != null)
         {
-            Debug.Log(this.name+" bump "+otherActor.name);
+            //Debug.Log(this.name+" bump "+otherActor.name);
         }
         else
         {
-            Debug.Log(this.name+" hit by "+other.name);   
+            //Debug.Log(this.name+" hit by "+other.name);   
         }
     }
 

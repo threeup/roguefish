@@ -48,7 +48,7 @@ public class World : MonoBehaviour {
     {
 
         Actor boat = MakeBoat();
-        UserMgr.Instance.AssignActor(0, boat);
+        UserMgr.Instance.AssignActor(1, boat);
 
         AdvanceLevel();
 
@@ -73,7 +73,7 @@ public class World : MonoBehaviour {
         EntityProperties eprop = new EntityProperties();
         eprop.HP = 10;
         eprop.imgProp = new ImageProperties(Constants.FishRect);
-        Actor actor = FactoryEntity.Instance.GetGenericActor(eprop);
+        Actor actor = FactoryEntity.Instance.GetNormalActor(eprop);
         actor.name = "Fish"+i;
         Vector2 pos = Vector2.zero;
         pos.x = (i%2 == 0 ? 1f : -1f)*512f;
@@ -89,16 +89,13 @@ public class World : MonoBehaviour {
         return actor;
     }
 
-    private Actor MakeButton(string name, float posX)
+    private Actor MakeButton(string name, Rect coord, Vector2 pos)
     {
         EntityProperties eprop = new EntityProperties();
         eprop.HP = 1;
-        eprop.imgProp = new ImageProperties(Constants.ButtonRect);
-        Actor buttonActor = FactoryEntity.Instance.GetGenericActor(eprop);
+        eprop.imgProp = new ImageProperties(coord);
+        Actor actor = FactoryEntity.Instance.GetNormalActor(eprop);
         actor.name = "Button"+name;
-        Vector2 pos = Vector2.zero;
-        pos.x = posX;
-        pos.y = -200f;
         actor.WarpTo(pos);
         actor.transform.localScale = Vector3.one*0.75f;
         actor.transform.SetParent(playField.transform, false);
@@ -143,11 +140,7 @@ public class World : MonoBehaviour {
 
     public void Update()
     {
-        float deltaTime = Time.deltaTime;
-        foreach(Entity entity in entities)
-        {
-            entity.UpdateEntity(deltaTime);
-        }
+        
     }
 
     public void ParentToField(Transform transform)
@@ -161,9 +154,11 @@ public class World : MonoBehaviour {
         level++;
         if (level == 1)
         {
-            Actor start = MakeButton("Start", -100);
+            Actor start = MakeButton("Start", Constants.StartRect, new Vector2(-100,100));
+            start.OnAttach = GoStart;
             UserMgr.Instance.AssignActor(0, start);
-            Actor exit = MakeButton("Exit", 150);
+            Actor exit = MakeButton("Exit", Constants.QuitRect, new Vector2(100,100));
+            exit.OnAttach = GoExit;
             UserMgr.Instance.AssignActor(0, exit);
         }
         if (level == 2)
@@ -175,4 +170,16 @@ public class World : MonoBehaviour {
             }
         }
     }
+
+    void GoStart()
+    {
+        UserMgr.Instance.Purge(0);
+        AdvanceLevel();
+    }
+
+    void GoExit()
+    {
+        Debug.Log("Exit");
+    }
+
 }

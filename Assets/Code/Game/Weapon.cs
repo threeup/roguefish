@@ -64,7 +64,7 @@ public class Weapon : Entity
     }
 
 
-    public void AddAttack(FishActor actor)
+    public void AddAttack(Actor actor)
     {
         if (attackList.Contains(actor))
         {
@@ -74,6 +74,16 @@ public class Weapon : Entity
         actor.AttachTo(this);
     }
 
+    public void RemoveAttack(Actor actor)
+    {
+        if (!attackList.Contains(actor))
+        {
+            return;
+        }
+        attackList.Remove(actor);
+        actor.AttachTo(null);
+    }
+
     public void Purge()
     {
         foreach(Actor actor in attackList)
@@ -81,5 +91,20 @@ public class Weapon : Entity
             actor.AttachTo(null);   
         }
         attackList.Clear();
+    }
+
+    public Actor Pop()
+    {
+        if (attackList.Count > 0)
+        {
+            Actor actor = attackList[0] as Actor; 
+            attackList.RemoveAt(0);
+            if (actor != null)
+            {
+                actor.BecomeDead();
+                return actor;
+            }
+        }
+        return null;
     }
 }

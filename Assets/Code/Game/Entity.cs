@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+public delegate void EntityEvent();
 
 public class Entity : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class Entity : MonoBehaviour
     public RectTransform thisTransform;
     public GameObject go;
     public bool hasTimeToLive;
-    public float timeToLive;
+    public float timeToLive = 0f;
     public Image img = null;
 
     public float currentSpeedX = 1f;
@@ -20,6 +21,10 @@ public class Entity : MonoBehaviour
     public float maxSpeedX = 1f;
     public float maxSpeedY = 1f;
     public Vector2 velocity = Vector2.zero;
+
+
+    public bool isValid = false;
+    public EntityEvent OnAttach;
 
     public Entity attachedParent = null;
 
@@ -35,12 +40,34 @@ public class Entity : MonoBehaviour
         currentSpeedX = maxSpeedX;
         currentSpeedY = maxSpeedY;
         World.Instance.Register(this);
+        isValid = true;
     }
 
     public virtual void Reset()
     {
+        if (attachedParent != null)
+        {
+            Weapon weapon = attachedParent as Weapon;
+            if (weapon != null)
+            {
+                weapon.RemoveAttack(this as Actor);
+            }
+        }
+        collider.enabled = false;
+        img.enabled = false;
+        img.transform.SetParent(null, true);
+        FactoryEmoji.Instance.PoolImage(img);
+
         hasTimeToLive = false;
+        this.name = this.name+"X";
+        this.enabled = false;
         World.Instance.Deregister(this);
+        isValid = false;
+    }
+
+    void Update()
+    {
+        UpdateEntity(Time.deltaTime);
     }
 
     public virtual void UpdateEntity(float deltaTime)
@@ -110,5 +137,16 @@ public class Entity : MonoBehaviour
     public void AttachTo(Entity other)
     {
         attachedParent = other;
+        if (OnAttach != null)
+        {
+            OnAttach();
+        }
+    }
+
+    public void BecomeDead()
+    {
+        hasTimeToLive = true;
+        timeToLive = 0f;
+        collider.enabled = false;
     }
 }

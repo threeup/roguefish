@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class FishActor : Actor
+public class NormalActor : Actor
 {
     private bool buttonDown;
 
@@ -56,6 +56,10 @@ public class FishActor : Actor
 
     protected override void CollideWith(GameObject other)
     {
+        if (!isValid)
+        {
+            return;
+        }
         Actor otherActor = other.GetComponent<Actor>();
         if (otherActor != null)
         {
