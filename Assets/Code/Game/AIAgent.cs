@@ -158,12 +158,14 @@ public class AIAgent : MonoBehaviour
 
     public static ActionData CreateAttackOn(Actor actor)
     {
-        Vector2 next = actor.currentPos + actor.Velocity.normalized*20f;
+        Vector2 next = actor.currentPos + actor.Velocity.normalized*80f;
+        next.y = Mathf.Clamp(next.y, -370f,110f);
         return new ActionData(ActionType.ATTACK, next, 0f, SetupAttackOn, AttackUpdate);
     }
     public static ActionData CreateAttackOff(Actor actor)
     {
-        Vector2 next = actor.currentPos + actor.Velocity.normalized*20f;
+        Vector2 next = actor.currentPos + actor.Velocity.normalized*80f;
+        next.y = Mathf.Clamp(next.y, -370f,110f);
         return new ActionData(ActionType.ATTACK, next, 0f, SetupAttackOff, AttackUpdate);
     }
 
@@ -175,7 +177,8 @@ public class AIAgent : MonoBehaviour
 
     public static ActionData CreateDrift(Actor actor)
     {
-        Vector2 next = actor.currentPos + actor.Velocity.normalized*20f;
+        Vector2 next = actor.currentPos + actor.Velocity.normalized*80f;
+        next.y = Mathf.Clamp(next.y, -370f,110f);
         float time = UnityEngine.Random.Range(0.3f,1f);
         return new ActionData(ActionType.WAIT, next, time, SetupWander, DriftUpdate);
     }

@@ -186,10 +186,10 @@ public class World : MonoBehaviour {
         level++;
         whaleCount = 0;
         UserMgr.Instance.Purge(0);
+        UserMgr.Instance.Purge(2);
         if (level == 1)
         {
             UserMgr.Instance.Purge(1);
-            UserMgr.Instance.Purge(2);
         
             Actor boat = MakeBoat();
             UserMgr.Instance.AssignActor(1, boat);
@@ -207,17 +207,17 @@ public class World : MonoBehaviour {
             Actor cloud = MakeCloud();
             UserMgr.Instance.AssignActor(0, cloud);
 
-            int maxFish = level*10;
+            int maxFish = level*16;
             if (userBoat != null)
             {
                 userBoat.healthDecayRate = 10f/level;
-                userBoat.progressRemaining = 4*level;
+                userBoat.progressRemaining = level*4;
             }
             int i=0;
             
             int type1 = (int)Mathf.Round(maxFish*0.4f);
-            int type2 = type1 + (int)Mathf.Round(maxFish*0.2f);
-            int type3 = type2 + (int)Mathf.Round(maxFish*0.2f);
+            int type2 = type1 + (int)Mathf.Round(maxFish*0.3f);
+            int type3 = type2 + (int)Mathf.Round(maxFish*0.1f);
             int type4 = type3 + (int)Mathf.Round(maxFish*0.2f);
             for(; i<type1; ++i)
             {
