@@ -40,7 +40,7 @@ public class Constants
 		HookImgData, 		PropType.HOOK, 10, 10, 10, 1f, 1f, 1f, new Vector2(999f,75f), new Vector2(999f,75f), 1f);
 
 	public static EntityProperties CloudData = new EntityProperties(
-		CloudImgData, 		PropType.BOAT, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,0f), new Vector2(100f,0f), 1f);
+		CloudImgData, 		PropType.BOAT, 10, 10, 10, 1f, 1f, 1f, new Vector2(1000f,0f), new Vector2(1000f,0f), 1f);
 	public static EntityProperties RainData = new EntityProperties(
 		RainImgData, 		PropType.HOOK, 10, 10, 10, 1f, 1f, 1f, new Vector2(999f,75f), new Vector2(999f,75f), 1f);
 	public static EntityProperties LightningData = new EntityProperties(

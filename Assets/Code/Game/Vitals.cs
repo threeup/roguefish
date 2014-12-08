@@ -23,7 +23,7 @@ public class Vitals : MonoBehaviour
         health = FactoryEmoji.Instance.GetEmoji(Constants.MoonImgData5);
         health.transform.SetParent(this.transform, false);
         health.transform.localScale = 1.4f*Vector3.one;
-        health.transform.localPosition = new Vector3(-309f, 225f, -9f);
+        health.transform.localPosition = new Vector3(-309f, 240f, -9f);
         health.name = "Health";
         house = FactoryEmoji.Instance.GetEmoji(Constants.HouseImgData);
         house.transform.SetParent(this.transform, false);
@@ -33,7 +33,7 @@ public class Vitals : MonoBehaviour
         wife = FactoryEmoji.Instance.GetEmoji(Constants.WifeImgDataNo);
         wife.transform.SetParent(this.transform, false);
         wife.transform.localScale = 0.5f*Vector3.one;
-        wife.transform.localPosition = new Vector3(435f, 165f, -7f);
+        wife.transform.localPosition = new Vector3(435f, 165f, -6f);
         wife.name = "Wife";
         land = FactoryEmoji.Instance.GetEmoji(Constants.LandImgData);
         land.transform.SetParent(this.transform, false);

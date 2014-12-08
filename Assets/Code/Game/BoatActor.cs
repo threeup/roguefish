@@ -11,7 +11,7 @@ public class BoatActor : Actor
     private float healthDecayTimer = 10f;
     public float healthDecayRate = 100f;
 
-    
+
     public override void UpdateEntity(float deltaTime)
     {
         healthDecayTimer -= deltaTime;
@@ -81,7 +81,7 @@ public class BoatActor : Actor
         Weapon otherWeapon = other.GetComponent<Weapon>();
         if (otherWeapon)
         {
-            if (otherWeapon == activeWeapon)
+            if (otherWeapon.owner == this)
             {
                 Actor hookedActor = activeWeapon.Pop();
                 if (hookedActor != null)

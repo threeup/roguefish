@@ -36,6 +36,8 @@ public class World : MonoBehaviour {
         machine.AddEnterListener(OnBusy);
         
         machine.SetState(GeneralState.READY);
+        
+        Utilities.SortChildren(playField.gameObject);
     }
 
     public void OnNotReady(object owner)

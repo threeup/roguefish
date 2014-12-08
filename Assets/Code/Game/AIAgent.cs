@@ -122,9 +122,9 @@ public class AIAgent : MonoBehaviour
             {
                 default:
                 case 0: //currentAction = CreateApproachTarget(actor, target); break;
-                case 1: 
-                case 2:
-                case 3: currentAction = CreateRandomWander(actor); break;
+                case 1: currentAction = CreateDrift(actor); break;
+                case 2: 
+                case 3: currentAction = CreateSideWander(actor); break;
                 case 4: currentAction = CreateAttack(actor); break;
             }
         }
@@ -173,6 +173,15 @@ public class AIAgent : MonoBehaviour
         return new ActionData(ActionType.WAIT, next, time, SetupWander, DriftUpdate);
     }
 
+
+    public static ActionData CreateSideWander(Actor actor)
+    {
+        Vector2 next = Vector2.zero;
+        next.x = Mathf.Clamp(actor.currentPos.x + UnityEngine.Random.Range(-20f,20f), -570f,570f);
+        next.y = actor.currentPos.y;
+
+        return new ActionData(ActionType.MOVE, next, 0f, SetupWander, MovePositionUpdate);
+    }
 
     public static ActionData CreateRandomWander(Actor actor)
     {
