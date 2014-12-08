@@ -67,7 +67,8 @@ public class GameMgr : MonoBehaviour {
 
     public void InitGoog()
     {
-        if (Application.platform == RuntimePlatform.Android)
+        bool useGoog = false;
+        if (useGoog && Application.platform == RuntimePlatform.Android)
         {
             googMgr = new GoogMgr();
             googMgr.Initialize();

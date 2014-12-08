@@ -161,7 +161,7 @@ public class Actor : Entity
 
     public void TakeDamage(int val)
     {
-        this.HP -= val;
+        this.HP = Mathf.Max(0, HP-val);
     }
 
 }

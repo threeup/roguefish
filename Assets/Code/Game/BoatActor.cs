@@ -17,7 +17,7 @@ public class BoatActor : Actor
         healthDecayTimer -= deltaTime;
         if (healthDecayTimer < 0f)
         {
-            this.HP -= 1;
+            TakeDamage(1);
             healthDecayTimer = healthDecayRate;
         }
         base.UpdateEntity(deltaTime);
