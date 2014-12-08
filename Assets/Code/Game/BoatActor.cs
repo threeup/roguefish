@@ -9,8 +9,17 @@ public class BoatActor : Actor
     public Weapon hook;
     private bool buttonDown;
 
+    private float healthDecayTimer = 10f;
+    public float healthDecayRate = 100f;
+
     public override void UpdateEntity(float deltaTime)
     {
+        healthDecayTimer -= deltaTime;
+        if (healthDecayTimer < 0f)
+        {
+            this.HP -= 1;
+            healthDecayTimer = healthDecayRate;
+        }
         base.UpdateEntity(deltaTime);
         if (hook != null)
         {

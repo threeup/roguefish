@@ -7,7 +7,8 @@ using System.Linq;
 
 public class Constants
 {
-	public static ImageProperties BoatImgData 			= new ImageProperties(new Rect(1660,1274,64,64));
+	//public static ImageProperties BoatImgData 			= new ImageProperties(new Rect(1660,1274,64,64));
+	public static ImageProperties BoatImgData 			= new ImageProperties(new Rect(128,1088,64,64));
 	public static ImageProperties HookImgData 			= new ImageProperties(new Rect(64,64,64,64));
 	public static ImageProperties FishImgData 			= new ImageProperties(new Rect(768,1344,64,64));
 	public static ImageProperties AngelFishImgData 		= new ImageProperties(new Rect(768,1280,64,64));
@@ -19,6 +20,12 @@ public class Constants
 
 	public static ImageProperties StartImgData 			= new ImageProperties(new Rect(256,1216,64,64));
 	public static ImageProperties QuitImgData 			= new ImageProperties(new Rect(192,896,64,64));
+	public static ImageProperties HouseImgData 			= new ImageProperties(new Rect(630,508,64,64));
+	public static ImageProperties MoonImgData5			= new ImageProperties(new Rect(320,576,64,64));
+	public static ImageProperties MoonImgData4			= new ImageProperties(new Rect(320,512,64,64));
+	public static ImageProperties MoonImgData3			= new ImageProperties(new Rect(320,448,64,64));
+	public static ImageProperties MoonImgData2			= new ImageProperties(new Rect(320,384,64,64));
+	public static ImageProperties MoonImgData1			= new ImageProperties(new Rect(320,256,64,64));
 
 
 	public static EntityProperties BoatData = new EntityProperties(
@@ -28,13 +35,13 @@ public class Constants
 	public static EntityProperties FishData = new EntityProperties(
 		FishImgData, 		PropType.FISH, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f);
 	public static EntityProperties AngelFishData = new EntityProperties(
-		AngelFishImgData, 	PropType.FISH, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f);
+		AngelFishImgData, 	PropType.FISH, 10, 10, 10, 1f, 1f, 1f, new Vector2(60f,40f),  new Vector2(30f,20f), 1f);
 	public static EntityProperties BrownFishData = new EntityProperties(
-		BrownFishImgData, 	PropType.FISH, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f);
+		BrownFishImgData, 	PropType.FISH, 10, 10, 10, 1f, 1f, 1f, new Vector2(130f,80f),  new Vector2(60f,40f), 1f);
 	public static EntityProperties TurtleData = new EntityProperties(
-		TurtleImgData, 		PropType.TURT, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f);
+		TurtleImgData, 		PropType.TURT, 10, 10, 10, 1f, 1f, 1f, new Vector2(50f,35f),  new Vector2(10f,3f), 1f);
 	public static EntityProperties BootData	= new EntityProperties(
-		BootImgData, 		PropType.BOOT, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f);
+		BootImgData, 		PropType.BOOT, 10, 10, 10, 1f, 1f, 1f, new Vector2(30f,30f),  new Vector2(30f,30f), 1f);
 	public static EntityProperties HappyWhaleData = new EntityProperties(
 		FishImgData, 		PropType.WHAL, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f);
 	public static EntityProperties BigWhaleData = new EntityProperties(

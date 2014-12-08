@@ -25,9 +25,14 @@ public class FactoryEmoji : MonoBehaviour {
     public Image GetEmoji(ImageProperties prop)
     {
         Image result = GetImage();
-        Rect rect = new Rect(prop.rect.x, prop.rect.y, 64, 64);
-        result.sprite = Sprite.Create(masterImage,rect,Vector2.one,1f);
+        result.sprite = GetSprite(prop);
         return result;
+    }
+
+    public Sprite GetSprite(ImageProperties prop)
+    {
+        Rect rect = new Rect(prop.rect.x, prop.rect.y, 64, 64);
+        return Sprite.Create(masterImage,rect,Vector2.one,1f);
     }
 
     public Image GetImage()

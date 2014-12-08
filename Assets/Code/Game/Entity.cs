@@ -78,7 +78,7 @@ public class Entity : MonoBehaviour
         {
             if (lowMode)
             {
-                this.RP = Mathf.Min(RP+1, 10);
+                this.RP = Mathf.Min(RP+2, 10);
             }
             else
             {
@@ -128,7 +128,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    public void SetPhysics(EntityProperties prop)
+    public void SetupProp(EntityProperties prop)
     {
         RP = prop.rp;    
         regenRate = prop.rpregen;

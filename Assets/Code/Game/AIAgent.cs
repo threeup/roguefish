@@ -122,7 +122,7 @@ public class AIAgent : MonoBehaviour
     {
         Vector2 next = Vector2.zero;
         next.x = Mathf.Clamp(actor.currentPos.x + UnityEngine.Random.Range(-20f,20f), -570f,570f);
-        next.y = Mathf.Clamp(actor.currentPos.y + UnityEngine.Random.Range(-20f,20f), -370f,370f);
+        next.y = Mathf.Clamp(actor.currentPos.y + UnityEngine.Random.Range(-20f,20f), -370f,110f);
 
         return new ActionData(ActionType.MOVE, next, 0f, SetupWander, MovePositionUpdate);
     }
@@ -133,7 +133,7 @@ public class AIAgent : MonoBehaviour
         float travelX = UnityEngine.Random.Range(400,1100f);
         travelX *= (actor.currentPos.x > 0 ? -1f : 1f);
         next.x = actor.currentPos.x + travelX;
-        next.y = UnityEngine.Random.Range(-370f,370f);
+        next.y = UnityEngine.Random.Range(-370f,110f);
         return new ActionData(ActionType.MOVE, next, 0f, SetupNormal, MovePositionUpdate);
     }   
 
@@ -144,7 +144,7 @@ public class AIAgent : MonoBehaviour
         do
         {
             next.x = UnityEngine.Random.Range(-570f,570f);
-            next.y = UnityEngine.Random.Range(-370f,370f);
+            next.y = UnityEngine.Random.Range(-370f,110f);
         } while ((actor.currentPos - next).sqrMagnitude < min*min);
         return new ActionData(ActionType.MOVE, next, 0f, SetupNormal, MovePositionUpdate);
     }

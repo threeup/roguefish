@@ -68,4 +68,13 @@ public class UserMgr : MonoBehaviour {
     {
         localUser.ProcessInput(count, current, source);
     } 
+
+    public BoatActor GetBoat(int idx)
+    {
+        if (idx < users.Count)
+        {
+            return users[idx].boat;
+        }
+        return null;
+    }
 }

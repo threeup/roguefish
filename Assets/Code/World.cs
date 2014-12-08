@@ -59,9 +59,14 @@ public class World : MonoBehaviour {
     {
         Actor actor = FactoryEntity.Instance.GetBoatActor(Constants.BoatData);
         actor.name = "Boat";
-        actor.WarpTo(Vector3.up*256f);
+        actor.WarpTo(Vector3.up*156f);
         actor.transform.localScale = Vector3.one*2f;
         actor.transform.SetParent(playField.transform, false);
+        
+        GameObject vitalObj = new GameObject("VitalsBoat");
+        vitalObj.transform.SetParent(playField.transform, false);
+        Vitals vitals = vitalObj.AddComponent<Vitals>();
+        vitals.Initialize(actor);
         return actor;
     }
 
@@ -71,7 +76,7 @@ public class World : MonoBehaviour {
         actor.name = "Fish"+i;
         Vector2 pos = Vector2.zero;
         pos.x = (i%2 == 0 ? 1f : -1f)*512f;
-        pos.y = UnityEngine.Random.Range(-300f, 300f);
+        pos.y = UnityEngine.Random.Range(-300f, 110f);
         actor.WarpTo(pos);
         pos.x = -pos.x;
         actor.GoalTo(pos);
@@ -148,15 +153,20 @@ public class World : MonoBehaviour {
         level++;
         if (level == 1)
         {
-            Actor start = MakeButton("Start", Constants.StartImgData, new Vector2(-100,100));
+            Actor start = MakeButton("Start", Constants.StartImgData, new Vector2(-100,0));
             start.OnAttach = GoStart;
             UserMgr.Instance.AssignActor(0, start);
-            Actor exit = MakeButton("Exit", Constants.QuitImgData, new Vector2(100,100));
+            Actor exit = MakeButton("Exit", Constants.QuitImgData, new Vector2(100,0));
             exit.OnAttach = GoExit;
             UserMgr.Instance.AssignActor(0, exit);
         }
         if (level == 2)
         {
+            BoatActor boat = UserMgr.Instance.GetBoat(1);
+            if (boat != null)
+            {
+                boat.healthDecayRate = 9f;
+            }
             int i=0;
             for(; i<8; ++i)
             {
@@ -184,6 +194,11 @@ public class World : MonoBehaviour {
     void GoStart()
     {
         UserMgr.Instance.Purge(0);
+        BoatActor boat = UserMgr.Instance.GetBoat(1);
+        if (boat != null)
+        {
+            boat.HP = 10;
+        }
         AdvanceLevel();
     }
 

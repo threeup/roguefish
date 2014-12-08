@@ -6,6 +6,8 @@ using System.Linq;
 
 public class Actor : Entity
 {
+    public Vitals vitals;
+
     public int actorUID = -1;
     public string actorName;
     public AIAgent ai = null;
@@ -33,7 +35,10 @@ public class Actor : Entity
 
     public override void UpdateEntity(float deltaTime)
     {
-
+        if (vitals != null)
+        {
+            vitals.UpdateVitals();
+        }
         if (ai != null)
         {
             ai.UpdateAgent(deltaTime);
@@ -42,10 +47,11 @@ public class Actor : Entity
     }
 
 
-    public void SetupActor(EntityProperties prop)
+    public void SetupProp(EntityProperties prop)
     {
         HP = prop.hp;    
         AP = prop.ap;    
+        base.SetupProp(prop);
     }
 
 
