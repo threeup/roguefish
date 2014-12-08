@@ -24,12 +24,13 @@ public class Ability
         Weapon weap = FactoryEntity.Instance.GetWeapon(eprop);
         weap.name = ename;
         weap.weaponName = ename;
-        weap.WarpTo(actor.currentPos);
+        Vector2 startPos = actor.currentPos;
+        startPos.x += UnityEngine.Random.Range(-1f,1f)*actor.transform.localScale.x*32f;
+        weap.WarpTo(startPos);
         weap.transform.localScale = Vector3.one*1f;
         World.Instance.ParentToField(weap.transform);
         weap.owner = actor;
         weap.TurnOn();
-        Debug.Log("Created weap"+actor);
         return weap;
     }
 

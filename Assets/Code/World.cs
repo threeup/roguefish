@@ -13,6 +13,7 @@ public class World : MonoBehaviour {
     public GeneralMachine machine;
 
     public int level = 0;
+    public int whaleCount = 0;
 
     void Start()
     {
@@ -60,7 +61,7 @@ public class World : MonoBehaviour {
         actor.WarpTo(Vector3.up*156f);
         
         actor.transform.SetParent(playField.transform, false);
-
+        actor.TurnOn();
         Ability hook = new Ability(Constants.HookData, "HOOK");
         actor.abilities.Add(hook);
         
@@ -77,7 +78,8 @@ public class World : MonoBehaviour {
         actor.name = "Cloud";
         actor.WarpTo(Vector3.up*256f);
         actor.transform.SetParent(playField.transform, false);
-
+        actor.maxWeapons = 9;
+        actor.TurnOn();
         Ability rain = new Ability(Constants.RainData, "RAIN");
         actor.abilities.Add(rain);
 
@@ -96,13 +98,13 @@ public class World : MonoBehaviour {
         Actor actor = FactoryEntity.Instance.GetNormalActor(fishData);
         actor.name = "Fish"+i;
         Vector2 pos = Vector2.zero;
-        pos.x = (i%2 == 0 ? 1f : -1f)*512f;
+        pos.x = (i%2 == 0 ? 1f : -1f)*612f;
         pos.y = UnityEngine.Random.Range(-300f, 110f);
         actor.WarpTo(pos);
         pos.x = -pos.x;
         actor.GoalTo(pos);
         actor.transform.SetParent(playField.transform, false);
-
+        actor.TurnOn();
         AIAgent fishAI = actor.gameObject.AddComponent<AIAgent>();
         fishAI.Initialize(actor, AIAgent.AgentType.WANDER);
         return actor;
@@ -117,7 +119,7 @@ public class World : MonoBehaviour {
         actor.name = "Button"+name;
         actor.WarpTo(pos);
         actor.transform.SetParent(playField.transform, false);
-
+        actor.TurnOn();
         return actor;
     }
 
@@ -158,7 +160,14 @@ public class World : MonoBehaviour {
 
     public void Update()
     {
-        
+        BoatActor userBoat = UserMgr.Instance.GetBoat(1);
+        if (userBoat != null && userBoat.HP <= 0 && whaleCount < 2)
+        {
+            userBoat.HP = 2;
+            Actor fish = MakeFish(999, Constants.BigWhaleData);
+            UserMgr.Instance.AssignActor(2, fish);
+            whaleCount++;
+        }
     }
 
     public void ParentToField(Transform transform)
@@ -170,10 +179,12 @@ public class World : MonoBehaviour {
     public void AdvanceLevel()
     {
         level++;
+        whaleCount = 0;
         UserMgr.Instance.Purge(0);
         BoatActor userBoat = UserMgr.Instance.GetBoat(1);
         if (userBoat != null)
         {
+            userBoat.healthDecayRate = 1000f;
             userBoat.HP = 10;
             userBoat.progressRemaining = 1;
         }
@@ -199,7 +210,7 @@ public class World : MonoBehaviour {
             int maxFish = level*10;
             if (userBoat != null)
             {
-                userBoat.healthDecayRate = 6f/level;
+                userBoat.healthDecayRate = 10f/level;
                 userBoat.progressRemaining = 4*level;
             }
             int i=0;

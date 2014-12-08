@@ -16,7 +16,7 @@ public class Constants
 	public static ImageProperties TurtleImgData 		= new ImageProperties(new Rect(768,1152,64,64));
 	public static ImageProperties BootImgData 			= new ImageProperties(new Rect(896,1024,64,64));
 	public static ImageProperties HappyWhaleImgData 	= new ImageProperties(new Rect(896,64,64,64));
-	public static ImageProperties BigWhaleImgData 		= new ImageProperties(new Rect(896,768,64,64));
+	public static ImageProperties BigWhaleImgData 		= new ImageProperties(new Rect(704,704,64,64));
 	public static ImageProperties CloudImgData 			= new ImageProperties(new Rect(64,1728,64,64));
 	public static ImageProperties RainImgData 			= new ImageProperties(new Rect(1024,450,64,64));
 	public static ImageProperties LightningImgData 		= new ImageProperties(new Rect(128,1856,64,64));
@@ -42,9 +42,9 @@ public class Constants
 	public static EntityProperties CloudData = new EntityProperties(
 		CloudImgData, 		PropType.BOAT, 10, 10, 10, 1f, 1f, 3f, new Vector2(1000f,0f), new Vector2(1000f,0f), 1f, 0f);
 	public static EntityProperties RainData = new EntityProperties(
-		RainImgData, 		PropType.FREE, 10, 10, 10, 1f, 1f, 0.2f, new Vector2(10f,300f), new Vector2(10f,300f), 1f, 1f);
+		RainImgData, 		PropType.FREE, 10, 10, 10, 1f, 1f, 0.2f, new Vector2(10f,100f), new Vector2(10f,100f), 1f, 1.2f);
 	public static EntityProperties LightningData = new EntityProperties(
-		LightningImgData, 	PropType.FREE, 10, 10, 10, 1f, 1f, 0.4f, new Vector2(10f,500f), new Vector2(10f,500f), 1f, 1f);
+		LightningImgData, 	PropType.FREE, 10, 10, 10, 1f, 1f, 0.4f, new Vector2(10f,150f), new Vector2(10f,150f), 1f, 1.2f);
 
 
 	public static EntityProperties FishData = new EntityProperties(
@@ -58,7 +58,7 @@ public class Constants
 	public static EntityProperties BootData	= new EntityProperties(
 		BootImgData, 		PropType.BOOT, 10, 10, 10, 1f, 1f, 1f, new Vector2(30f,30f),  new Vector2(30f,30f), 1f, 0f);
 	public static EntityProperties HappyWhaleData = new EntityProperties(
-		FishImgData, 		PropType.WHAL, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f, 0f);
+		HappyWhaleImgData, 		PropType.WHAL, 10, 10, 10, 1f, 1f, 2.0f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f, 0f);
 	public static EntityProperties BigWhaleData = new EntityProperties(
-		FishImgData, 		PropType.WHAL, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f, 0f);
+		BigWhaleImgData, 		PropType.WHAL, 10, 10, 10, 1f, 1f, 2.8f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f, 0f);
 }

@@ -183,7 +183,10 @@ public class Entity : MonoBehaviour
     public void SetImage(ImageProperties imgProp)
     {
         img = FactoryEmoji.Instance.GetEmoji(imgProp);
-        img.transform.SetParent(this.transform, true);
+        img.transform.localPosition = Vector3.zero;
+        img.transform.localScale = Vector3.one;
+        img.transform.rotation = Quaternion.identity;
+        img.transform.SetParent(this.transform, false);
     }
 
     public virtual void DestroySelf()

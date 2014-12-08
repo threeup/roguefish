@@ -117,7 +117,7 @@ public class AIAgent : MonoBehaviour
     {
         if (actor.IsAlive())
         {
-            int roll = UnityEngine.Random.Range(0,5);
+            int roll = UnityEngine.Random.Range(0,6);
             switch(roll)
             {
                 //currentAction = CreateApproachTarget(actor, target); break;
@@ -126,7 +126,8 @@ public class AIAgent : MonoBehaviour
                 case 1: 
                 case 2: 
                 case 3: currentAction = CreateSideWander(actor); break;
-                case 4: currentAction = CreateAttack(actor); break;
+                case 4: currentAction = CreateAttackOn(actor); break;
+                case 5: currentAction = CreateAttackOff(actor); break;
             }
         }
         else
@@ -155,10 +156,15 @@ public class AIAgent : MonoBehaviour
         }
     }
 
-    public static ActionData CreateAttack(Actor actor)
+    public static ActionData CreateAttackOn(Actor actor)
     {
         Vector2 next = actor.currentPos + actor.Velocity.normalized*20f;
-        return new ActionData(ActionType.ATTACK, next, 0f, SetupAttack, AttackUpdate);
+        return new ActionData(ActionType.ATTACK, next, 0f, SetupAttackOn, AttackUpdate);
+    }
+    public static ActionData CreateAttackOff(Actor actor)
+    {
+        Vector2 next = actor.currentPos + actor.Velocity.normalized*20f;
+        return new ActionData(ActionType.ATTACK, next, 0f, SetupAttackOff, AttackUpdate);
     }
 
     public static ActionData CreateApproachTarget(Actor actor, Actor target)
@@ -231,9 +237,14 @@ public class AIAgent : MonoBehaviour
         return true;
     }
 
-    public static bool SetupAttack(float deltaTime, ActionData adata, Actor actor)
+    public static bool SetupAttackOn(float deltaTime, ActionData adata, Actor actor)
     {
         actor.attackQueued = true;
+        return true;
+    }
+    public static bool SetupAttackOff(float deltaTime, ActionData adata, Actor actor)
+    {
+        actor.attackQueued = false;
         return true;
     }
 

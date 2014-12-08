@@ -25,6 +25,7 @@ public class FactoryEmoji : MonoBehaviour {
     public Image GetEmoji(ImageProperties prop)
     {
         Image result = GetImage();
+        result.gameObject.transform.position = Vector3.zero;
         result.sprite = GetSprite(prop);
         return result;
     }

@@ -44,7 +44,7 @@ public class Weapon : Entity
             actor.hasTimeToLive = true;
             actor.timeToLive = 0f;
         }
-        Debug.Log("weapon destroyed");
+        owner.RemoveWeapon(this);
         TurnOff();
         FactoryEntity.Instance.PoolWeapon(this);
     }
@@ -68,6 +68,12 @@ public class Weapon : Entity
         if (actor.propType == PropType.BOAT)
         {
             actor.TakeDamage(1);
+            hasTimeToLive = true;
+            timeToLive = 0f;
+            return;
+        }
+        if (actor.propType == PropType.WHAL)
+        {
             hasTimeToLive = true;
             timeToLive = 0f;
             return;

@@ -18,6 +18,8 @@ public class Actor : Entity
     public int maxWeapons = 1;
     public ThreatList threatList = null;
     public bool attackQueued = false;
+    public float attackRate = 0.75f;
+    public float attackTimer = 0f;
 
     public int progressRemaining = 0;
 
@@ -50,6 +52,15 @@ public class Actor : Entity
         {
             immuneTimer -= deltaTime;
         }
+        if (attackQueued)
+        {
+            attackTimer -= deltaTime;
+            if (attackTimer < 0f)
+            {
+                ProcessAttack();
+                attackTimer = attackRate;
+            }
+        }
         if (vitals != null)
         {
             vitals.UpdateVitals();
@@ -57,10 +68,6 @@ public class Actor : Entity
         if (ai != null)
         {
             ai.UpdateAgent(deltaTime);
-        }
-        if (attackQueued)
-        {
-            this.ProcessAttack();
         }
         base.UpdateEntity(deltaTime);
     }
@@ -125,7 +132,6 @@ public class Actor : Entity
             if (ability.CanUseAbility(this))
             {
                 Weapon activeWeapon = ability.Execute(this);
-                activeWeapon.WarpTo(this.currentPos);
                 activeWeapons.Add(activeWeapon);
                 if (activeWeapons.Count >= maxWeapons)
                 {
@@ -133,6 +139,14 @@ public class Actor : Entity
                 }
             }
         }        
+    }
+
+    public void RemoveWeapon(Weapon weapon)
+    {
+        if (activeWeapons.Contains(weapon))
+        {
+            activeWeapons.Remove(weapon);
+        }
     }
 
     public void TakeDamage(int val)

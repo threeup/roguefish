@@ -37,6 +37,7 @@ public class BoatActor : Actor
             }
             else
             {
+                activeWeapon.desiredPos.x = this.currentPos.x;
                 activeWeapon.desiredPos.y = -1000f;
             }
         }
