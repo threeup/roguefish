@@ -61,9 +61,11 @@ public class UserMgr : MonoBehaviour {
             {
                 norm.BecomeDead();
             }
+            users[idx].actorList.Clear();
             if (users[idx].boat != null)
             {
                 users[idx].boat.BecomeDead();
+                users[idx].boat = null;
             }
         }
     }
