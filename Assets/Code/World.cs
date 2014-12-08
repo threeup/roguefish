@@ -161,12 +161,17 @@ public class World : MonoBehaviour {
     public void Update()
     {
         BoatActor userBoat = UserMgr.Instance.GetBoat(1);
-        if (userBoat != null && userBoat.HP <= 0 && whaleCount < 2)
+        if (level > 1 && userBoat != null && userBoat.HP <= 0 && whaleCount < 2)
         {
             userBoat.HP = 2;
             Actor fish = MakeFish(999, Constants.BigWhaleData);
             UserMgr.Instance.AssignActor(2, fish);
             whaleCount++;
+        }
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            level = 0;
+            AdvanceLevel();
         }
     }
 
@@ -181,16 +186,11 @@ public class World : MonoBehaviour {
         level++;
         whaleCount = 0;
         UserMgr.Instance.Purge(0);
-        BoatActor userBoat = UserMgr.Instance.GetBoat(1);
-        if (userBoat != null)
-        {
-            userBoat.healthDecayRate = 1000f;
-            userBoat.HP = 10;
-            userBoat.progressRemaining = 1;
-        }
         if (level == 1)
         {
-
+            UserMgr.Instance.Purge(1);
+            UserMgr.Instance.Purge(2);
+        
             Actor boat = MakeBoat();
             UserMgr.Instance.AssignActor(1, boat);
 
@@ -203,7 +203,7 @@ public class World : MonoBehaviour {
         }
         if (level >= 2)
         {
-
+            BoatActor userBoat = UserMgr.Instance.GetBoat(1);
             Actor cloud = MakeCloud();
             UserMgr.Instance.AssignActor(0, cloud);
 

@@ -74,4 +74,14 @@ public class Vitals : MonoBehaviour
         }
     }
 
+    public void TurnOff()
+    {
+        health.enabled = false;
+        wife.enabled = false;
+        land.enabled = false;
+        house.enabled = false;
+        this.enabled = false;
+        Destroy(this.gameObject);
+    }
+
 }

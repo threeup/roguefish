@@ -38,6 +38,16 @@ public class Actor : Entity
 
     public override void TurnOff()
     {
+        foreach(Weapon weapon in activeWeapons)
+        {
+            weapon.hasTimeToLive = true;
+            weapon.timeToLive = 0f;
+        }
+        if (vitals != null)
+        {
+            vitals.TurnOff();
+            vitals = null;
+        }
         base.TurnOff();
     }
 
