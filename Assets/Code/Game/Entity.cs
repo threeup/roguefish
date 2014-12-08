@@ -115,7 +115,13 @@ public class Entity : MonoBehaviour
         Vector2 diff = (desiredPos-currentPos);
         if (attachedParent != null)
         {
-            SetPos(attachedParent.currentPos);
+            Vector2 attachDiff = (attachedParent.currentPos-currentPos);
+            velocity = attachDiff;
+            velocity.x = Mathf.Clamp(velocity.x, -5000, 5000) * deltaTime;
+            velocity.y = Mathf.Clamp(velocity.y, -5000, 5000) * deltaTime;
+            Vector2 nextPos = currentPos+velocity;
+            Vector2 average = nextPos*0.9f+attachedParent.currentPos*0.1f;
+            SetPos(average);
             velocity = diff;
         }
         else
@@ -143,6 +149,7 @@ public class Entity : MonoBehaviour
 
     public virtual void SetupProp(EntityProperties prop)
     {
+        transform.localScale = Vector3.one*prop.scale;
         propType = prop.propType;
         RP = prop.rp;    
         regenRate = prop.rpregen;

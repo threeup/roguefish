@@ -56,13 +56,13 @@ public struct EntityProperties
     public int rp;
     public float rpregen;
     public float mass;
-    public float radius;
+    public float scale;
     public Vector2 highVel;
     public Vector2 lowVel;
     public float angularSpeed;
     public float ttl;
 
-    public EntityProperties(ImageProperties imgProp, PropType propType, int hp, int ap, int rp, float rpregen, float mass, float radius, Vector2 highVel, Vector2 lowVel, float angularSpeed, float ttl)
+    public EntityProperties(ImageProperties imgProp, PropType propType, int hp, int ap, int rp, float rpregen, float mass, float scale, Vector2 highVel, Vector2 lowVel, float angularSpeed, float ttl)
     {
         this.imgProp = imgProp;        
         this.propType = propType;        
@@ -70,7 +70,7 @@ public struct EntityProperties
         this.ap = ap;
         this.rp = rp;
         this.mass = mass;        
-        this.radius = radius;        
+        this.scale = scale;        
         this.highVel = highVel;        
         this.lowVel = lowVel;        
         this.angularSpeed = angularSpeed;        

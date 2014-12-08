@@ -58,7 +58,7 @@ public class World : MonoBehaviour {
         Actor actor = FactoryEntity.Instance.GetBoatActor(Constants.BoatData);
         actor.name = "Boat";
         actor.WarpTo(Vector3.up*156f);
-        actor.transform.localScale = Vector3.one*1.4f;
+        
         actor.transform.SetParent(playField.transform, false);
 
         Ability hook = new Ability(Constants.HookData, "HOOK");
@@ -76,7 +76,6 @@ public class World : MonoBehaviour {
         Actor actor = FactoryEntity.Instance.GetBoatActor(Constants.CloudData);
         actor.name = "Cloud";
         actor.WarpTo(Vector3.up*256f);
-        actor.transform.localScale = Vector3.one*2f;
         actor.transform.SetParent(playField.transform, false);
 
         Ability rain = new Ability(Constants.RainData, "RAIN");
@@ -102,7 +101,6 @@ public class World : MonoBehaviour {
         actor.WarpTo(pos);
         pos.x = -pos.x;
         actor.GoalTo(pos);
-        actor.transform.localScale = Vector3.one*0.75f;
         actor.transform.SetParent(playField.transform, false);
 
         AIAgent fishAI = actor.gameObject.AddComponent<AIAgent>();
@@ -118,7 +116,6 @@ public class World : MonoBehaviour {
         Actor actor = FactoryEntity.Instance.GetNormalActor(eprop);
         actor.name = "Button"+name;
         actor.WarpTo(pos);
-        actor.transform.localScale = Vector3.one*0.75f;
         actor.transform.SetParent(playField.transform, false);
 
         return actor;

@@ -112,7 +112,7 @@ public class Weapon : Entity
             attackList.RemoveAt(0);
             if (actor != null)
             {
-                if (actor.propType == PropType.FISH)
+                if (actor.propType == PropType.FISH || actor.propType == PropType.TURT)
                 {
                     actor.BecomeDead();
                 }
