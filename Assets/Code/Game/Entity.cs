@@ -4,10 +4,12 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public delegate void EntityEvent();
+public delegate void EntityEvent(Entity parent);
 
 public class Entity : MonoBehaviour
 {
+    public PropType propType;
+
     public Vector2 currentPos;
     public Vector2 desiredPos;
     public RectTransform thisTransform;
@@ -128,8 +130,9 @@ public class Entity : MonoBehaviour
         }
     }
 
-    public void SetupProp(EntityProperties prop)
+    public virtual void SetupProp(EntityProperties prop)
     {
+        propType = prop.propType;
         RP = prop.rp;    
         regenRate = prop.rpregen;
         lowVel = prop.lowVel;
@@ -171,7 +174,7 @@ public class Entity : MonoBehaviour
         attachedParent = other;
         if (OnAttach != null)
         {
-            OnAttach();
+            OnAttach(other);
         }
     }
 

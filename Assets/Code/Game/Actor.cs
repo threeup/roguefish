@@ -13,13 +13,23 @@ public class Actor : Entity
     public AIAgent ai = null;
     public int HP = 1;
     public int AP = 1;
-    public Item CurrentItem = null;
-    public ActorInventory inventory = null;
+    public List<Ability> abilities;
+    public Weapon activeWeapon;
     public ThreatList threatList = null;
+    public bool attackQueued = false;
+
+    public int progressRemaining = 0;
+
+    private float immuneTimer = -1f;
+    public float ImmuneTimer { 
+        get { return immuneTimer; } 
+        set { immuneTimer = value; } 
+    }
 
     protected override void Initialize()
     {
         actorUID = Boss.GetActorUID();
+        abilities = new List<Ability>();
         base.Initialize();
     }
 
@@ -35,6 +45,10 @@ public class Actor : Entity
 
     public override void UpdateEntity(float deltaTime)
     {
+        if (immuneTimer > 0f)
+        {
+            immuneTimer -= deltaTime;
+        }
         if (vitals != null)
         {
             vitals.UpdateVitals();
@@ -43,11 +57,15 @@ public class Actor : Entity
         {
             ai.UpdateAgent(deltaTime);
         }
+        if (attackQueued)
+        {
+            this.ProcessAttack();
+        }
         base.UpdateEntity(deltaTime);
     }
 
 
-    public void SetupProp(EntityProperties prop)
+    public override void SetupProp(EntityProperties prop)
     {
         HP = prop.hp;    
         AP = prop.ap;    
@@ -94,10 +112,21 @@ public class Actor : Entity
         }
     }
 
-}
-
-public class ActorInventory : MonoBehaviour
-{
-    
+    public void ProcessAttack()
+    {
+        if (abilities.Count > 0)
+        {
+            Ability ability = abilities[ UnityEngine.Random.Range(0, abilities.Count) ];
+            if (!ability.CanUseAbility(this))
+            {
+                ability.ReloadAmmo();
+            }
+            if (ability.CanUseAbility(this))
+            {
+                activeWeapon = ability.Execute(this);
+                attackQueued = false;
+            }
+        }        
+    }
 
 }

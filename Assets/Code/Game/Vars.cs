@@ -51,7 +51,7 @@ public enum PropType
 public struct EntityProperties
 {
     public ImageProperties imgProp; 
-    public PropType ptype;
+    public PropType propType;
     public int hp;
     public int ap;
     public int rp;
@@ -62,10 +62,10 @@ public struct EntityProperties
     public Vector2 lowVel;
     public float angularSpeed;
 
-    public EntityProperties(ImageProperties imgProp, PropType ptype, int hp, int ap, int rp, float rpregen, float mass, float radius, Vector2 highVel, Vector2 lowVel, float angularSpeed)
+    public EntityProperties(ImageProperties imgProp, PropType propType, int hp, int ap, int rp, float rpregen, float mass, float radius, Vector2 highVel, Vector2 lowVel, float angularSpeed)
     {
         this.imgProp = imgProp;        
-        this.ptype = ptype;        
+        this.propType = propType;        
         this.hp = hp;
         this.ap = ap;
         this.rp = rp;

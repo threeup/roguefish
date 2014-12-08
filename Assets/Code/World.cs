@@ -46,10 +46,6 @@ public class World : MonoBehaviour {
 
     public void OnReady(object owner)
     {
-
-        Actor boat = MakeBoat();
-        UserMgr.Instance.AssignActor(1, boat);
-
         AdvanceLevel();
 
         machine.SetState(GeneralState.ACTIVE);   
@@ -62,11 +58,33 @@ public class World : MonoBehaviour {
         actor.WarpTo(Vector3.up*156f);
         actor.transform.localScale = Vector3.one*2f;
         actor.transform.SetParent(playField.transform, false);
+
+        Ability hook = new Ability(Constants.HookData, "HOOK");
+        actor.abilities.Add(hook);
         
         GameObject vitalObj = new GameObject("VitalsBoat");
         vitalObj.transform.SetParent(playField.transform, false);
         Vitals vitals = vitalObj.AddComponent<Vitals>();
         vitals.Initialize(actor);
+        return actor;
+    }
+
+    private Actor MakeCloud()
+    {
+        Actor actor = FactoryEntity.Instance.GetBoatActor(Constants.CloudData);
+        actor.name = "Cloud";
+        actor.WarpTo(Vector3.up*256f);
+        actor.transform.localScale = Vector3.one*2f;
+        actor.transform.SetParent(playField.transform, false);
+
+        Ability rain = new Ability(Constants.RainData, "RAIN");
+        actor.abilities.Add(rain);
+
+        Ability lightning = new Ability(Constants.LightningData, "LIGHTNING");
+        actor.abilities.Add(lightning);
+
+        AIAgent cloudAI = actor.gameObject.AddComponent<AIAgent>();
+        cloudAI.Initialize(actor, AIAgent.AgentType.ATTACK);
         return actor;
     }
 
@@ -84,7 +102,7 @@ public class World : MonoBehaviour {
         actor.transform.SetParent(playField.transform, false);
 
         AIAgent fishAI = actor.gameObject.AddComponent<AIAgent>();
-        fishAI.Initialize(actor);
+        fishAI.Initialize(actor, AIAgent.AgentType.WANDER);
         return actor;
     }
 
@@ -148,11 +166,22 @@ public class World : MonoBehaviour {
         Utilities.SortChildren(playField.gameObject);
     }
 
-    void AdvanceLevel()
+    public void AdvanceLevel()
     {
         level++;
+        UserMgr.Instance.Purge(0);
+        BoatActor userBoat = UserMgr.Instance.GetBoat(1);
+        if (userBoat != null)
+        {
+            userBoat.HP = 10;
+            userBoat.progressRemaining = 1;
+        }
         if (level == 1)
         {
+
+            Actor boat = MakeBoat();
+            UserMgr.Instance.AssignActor(1, boat);
+
             Actor start = MakeButton("Start", Constants.StartImgData, new Vector2(-100,0));
             start.OnAttach = GoStart;
             UserMgr.Instance.AssignActor(0, start);
@@ -160,30 +189,40 @@ public class World : MonoBehaviour {
             exit.OnAttach = GoExit;
             UserMgr.Instance.AssignActor(0, exit);
         }
-        if (level == 2)
+        if (level >= 2)
         {
-            BoatActor boat = UserMgr.Instance.GetBoat(1);
-            if (boat != null)
+
+            Actor cloud = MakeCloud();
+            UserMgr.Instance.AssignActor(0, cloud);
+
+            int maxFish = level*10;
+            if (userBoat != null)
             {
-                boat.healthDecayRate = 9f;
+                userBoat.healthDecayRate = 6f/level;
+                userBoat.progressRemaining = 4*level;
             }
             int i=0;
-            for(; i<8; ++i)
+            
+            int type1 = (int)Mathf.Round(maxFish*0.4f);
+            int type2 = type1 + (int)Mathf.Round(maxFish*0.2f);
+            int type3 = type2 + (int)Mathf.Round(maxFish*0.2f);
+            int type4 = type3 + (int)Mathf.Round(maxFish*0.2f);
+            for(; i<type1; ++i)
             {
                 Actor fish = MakeFish(i, Constants.FishData);
                 UserMgr.Instance.AssignActor(2, fish);
             }
-            for(; i<12; ++i)
+            for(; i<type2; ++i)
             {
                 Actor fish = MakeFish(i, Constants.AngelFishData);
                 UserMgr.Instance.AssignActor(2, fish);
             }
-            for(; i<15; ++i)
+            for(; i<type3; ++i)
             {
-                Actor fish = MakeFish(i, Constants.BrownFishData);
+                Actor fish = MakeFish(i, Constants.BootData);
                 UserMgr.Instance.AssignActor(2, fish);
             }
-            for(; i<18; ++i)
+            for(; i<type4; ++i)
             {
                 Actor fish = MakeFish(i, Constants.TurtleData);
                 UserMgr.Instance.AssignActor(2, fish);
@@ -191,20 +230,25 @@ public class World : MonoBehaviour {
         }
     }
 
-    void GoStart()
+    void GoStart(Entity parent)
     {
-        UserMgr.Instance.Purge(0);
-        BoatActor boat = UserMgr.Instance.GetBoat(1);
-        if (boat != null)
+        if (parent != null)
         {
-            boat.HP = 10;
+            BoatActor boat = UserMgr.Instance.GetBoat(1);
+            if (boat != null)
+            {
+                boat.progressRemaining = 0;
+                boat.CheckAdvance();
+            }
         }
-        AdvanceLevel();
     }
 
-    void GoExit()
+    void GoExit(Entity parent)
     {
-        Debug.Log("Exit");
+        if (parent != null)
+        {
+            Debug.Log("Exit");
+        }
     }
 
 }

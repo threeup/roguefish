@@ -6,12 +6,12 @@ using System.Linq;
 
 public class BoatActor : Actor
 {
-    public Weapon hook;
     private bool buttonDown;
 
     private float healthDecayTimer = 10f;
     public float healthDecayRate = 100f;
 
+    
     public override void UpdateEntity(float deltaTime)
     {
         healthDecayTimer -= deltaTime;
@@ -21,17 +21,22 @@ public class BoatActor : Actor
             healthDecayTimer = healthDecayRate;
         }
         base.UpdateEntity(deltaTime);
-        if (hook != null)
+        if (activeWeapon != null)
         {
-            hook.desiredPos.x = this.currentPos.x;
+            activeWeapon.desiredPos.x = this.currentPos.x;
             if (buttonDown)
             {
-                hook.desiredPos.y = -1000f;
+                activeWeapon.desiredPos.y = -1000f;
             }
             else
             {
-                hook.desiredPos.y = this.currentPos.y;
+                activeWeapon.desiredPos.y = this.currentPos.y;
             }
+        }
+
+        if (currentPos.x > 430)
+        {
+            CheckAdvance();
         }
     }
 
@@ -47,7 +52,7 @@ public class BoatActor : Actor
         if (buttonDown)
         {
             this.desiredPos.x = click.Value.x;
-            if (hook == null)
+            if (activeWeapon == null)
             {
                 CreateWeapon();
             }
@@ -56,13 +61,7 @@ public class BoatActor : Actor
 
     public bool CreateWeapon()
     {
-        hook = FactoryEntity.Instance.GetWeapon(Constants.HookData);
-        hook.name = "Hook";
-        hook.weaponName = "Hook";
-        hook.WarpTo(this.currentPos);
-        hook.transform.localScale = Vector3.one*1f;
-        World.Instance.ParentToField(hook.transform);
-        hook.owner = this;
+        attackQueued = true;
         return true;
     }
 
@@ -82,12 +81,21 @@ public class BoatActor : Actor
         Weapon otherWeapon = other.GetComponent<Weapon>();
         if (otherWeapon)
         {
-            if (otherWeapon == hook)
+            if (otherWeapon == activeWeapon)
             {
-                Actor hookedActor = hook.Pop();
+                Actor hookedActor = activeWeapon.Pop();
                 if (hookedActor != null)
                 {
+                    if (hookedActor.propType == PropType.FISH)
+                    {
+                        this.HP = Mathf.Min(this.HP+1,10);
+                        this.progressRemaining -= 1;
+                    }
                     Debug.Log("Caught"+hookedActor);
+                }
+                else
+                {
+                    //destroy activeWeapon?
                 }
             }
             else
@@ -100,5 +108,15 @@ public class BoatActor : Actor
             }
         }
     }
+
+    public void CheckAdvance()
+    {
+        if (progressRemaining <= 0)
+        {
+            World.Instance.AdvanceLevel();
+        }
+    }
+
+
 
 }

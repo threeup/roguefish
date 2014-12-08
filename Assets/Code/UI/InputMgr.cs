@@ -74,7 +74,7 @@ public class InputMgr : MonoBehaviour {
     
 	public void OnChange(int val   )
     {
-        Dbg.Instance.SetLabel(0, "Inp "+((InputState)machine.GetActiveState()).ToString());
+        //Dbg.Instance.SetLabel(0, "Inp "+((InputState)machine.GetActiveState()).ToString());
     }
 
     public void OnNotReady(object owner)

@@ -66,12 +66,19 @@ public class NormalActor : Actor
             return;
         }
         Weapon otherWeapon = other.GetComponent<Weapon>();
-        if (otherWeapon)
+        if (otherWeapon && this.ImmuneTimer < 0f)
         {
             this.AP -= otherWeapon.APDMG;
             if (this.AP < 0)
             {
-                otherWeapon.AddAttack(this);
+                if (propType == PropType.BOOT)
+                {
+                    otherWeapon.Purge();
+                }
+                else
+                {
+                    otherWeapon.AddAttack(this);
+                }
             }
         }
     }

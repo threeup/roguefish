@@ -9,8 +9,11 @@ public class Vitals : MonoBehaviour
     public Actor actor;
 
     private int lastHealthIndex = 0;
+    private bool lastCanAdvance = false;
     public Image health;
     public Image house;
+    public Image land;
+    public Image wife;
 
 
     public void Initialize(Actor actor)
@@ -20,16 +23,23 @@ public class Vitals : MonoBehaviour
         health = FactoryEmoji.Instance.GetEmoji(Constants.MoonImgData5);
         health.transform.SetParent(this.transform, false);
         health.transform.localScale = 1.4f*Vector3.one;
-        health.transform.localPosition = new Vector3(-309f, 225f, 0f);
+        health.transform.localPosition = new Vector3(-309f, 225f, -9f);
         health.name = "Health";
         house = FactoryEmoji.Instance.GetEmoji(Constants.HouseImgData);
         house.transform.SetParent(this.transform, false);
-        house.transform.localPosition = new Vector3(459f, 205f, 0f);
+        house.transform.localScale = 1.5f*Vector3.one;
+        house.transform.localPosition = new Vector3(435f, 165f, -7f);
         house.name = "House";
-        house = FactoryEmoji.Instance.GetEmoji(Constants.HouseImgData);
-        house.transform.SetParent(this.transform, false);
-        house.transform.localPosition = new Vector3(459f, 155f, 0f);
-        house.name = "Land";
+        wife = FactoryEmoji.Instance.GetEmoji(Constants.WifeImgDataNo);
+        wife.transform.SetParent(this.transform, false);
+        wife.transform.localScale = 0.5f*Vector3.one;
+        wife.transform.localPosition = new Vector3(435f, 165f, -7f);
+        wife.name = "Wife";
+        land = FactoryEmoji.Instance.GetEmoji(Constants.LandImgData);
+        land.transform.SetParent(this.transform, false);
+        land.transform.localScale = 5f*Vector3.one;
+        land.transform.localPosition = new Vector3(535f, 225f, -8f);
+        land.name = "Land";
     }
 
     public void UpdateVitals()
@@ -47,6 +57,20 @@ public class Vitals : MonoBehaviour
                 case 1: health.sprite = FactoryEmoji.Instance.GetSprite(Constants.MoonImgData1); break;
             }
             lastHealthIndex = healthIndex;
+        }
+
+        bool canAdvance = actor.progressRemaining <= 0;
+        if (canAdvance != lastCanAdvance)
+        {
+            if (canAdvance)
+            {
+                wife.sprite = FactoryEmoji.Instance.GetSprite(Constants.WifeImgDataYes); 
+            }
+            else
+            {
+                wife.sprite = FactoryEmoji.Instance.GetSprite(Constants.WifeImgDataNo);    
+            }
+            lastCanAdvance = canAdvance;
         }
     }
 

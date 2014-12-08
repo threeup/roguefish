@@ -7,11 +7,20 @@ using System.Linq;
 
 public class AIAgent : MonoBehaviour
 {
+    public enum AgentType
+    {
+        FLEE,
+        EAT,
+        WANDER,
+        ATTACK,
+    }
+
     public delegate bool ActionUpdate(float deltaTime, ActionData adata, Actor actor);
     public enum ActionType
     {
         MOVE,
         WAIT,
+        ATTACK,
     }
     public class ActionData
     {
@@ -61,10 +70,14 @@ public class AIAgent : MonoBehaviour
 
     public string debugString;
 
-    public void Initialize(Actor actor)
+    public Actor target;
+    private AgentType atype;
+
+    public void Initialize(Actor actor, AgentType atype)
     {
         this.actor = actor;
         actor.ai = this;
+        this.atype = atype;
     }
 
     public void UpdateAgent(float deltaTime)
@@ -74,21 +87,11 @@ public class AIAgent : MonoBehaviour
         {
             if (currentAction == null)
             {
-                if (actor.IsAlive())
+                switch(atype)
                 {
-                    int roll = UnityEngine.Random.Range(0,4);
-                    switch(roll)
-                    {
-                        default:
-                        case 0: currentAction = CreateRandomAcross(actor); break;
-                        case 1: 
-                        case 2: currentAction = CreateDrift(actor); break;
-                        case 3: currentAction = CreateRandomWander(actor); break;
-                    }
-                }
-                else
-                {
-                    currentAction = CreateDrift(actor);
+                    case AgentType.ATTACK: DetermineAttack(); break;
+                    default: 
+                    case AgentType.WANDER: DetermineWander(); break;
                 }
                 debugString = actor.name+" "+currentAction.atype;
             }
@@ -108,6 +111,59 @@ public class AIAgent : MonoBehaviour
             }
             fastTimer = fastTimerMax;
         }
+    }
+
+    private void DetermineAttack()
+    {
+        if (actor.IsAlive())
+        {
+            int roll = UnityEngine.Random.Range(0,5);
+            switch(roll)
+            {
+                default:
+                case 0: //currentAction = CreateApproachTarget(actor, target); break;
+                case 1: 
+                case 2:
+                case 3: currentAction = CreateRandomWander(actor); break;
+                case 4: currentAction = CreateAttack(actor); break;
+            }
+        }
+        else
+        {
+            currentAction = CreateDrift(actor);
+        }
+    }
+
+    private void DetermineWander()
+    {
+        if (actor.IsAlive())
+        {
+            int roll = UnityEngine.Random.Range(0,4);
+            switch(roll)
+            {
+                default:
+                case 0: currentAction = CreateRandomAcross(actor); break;
+                case 1: 
+                case 2: currentAction = CreateDrift(actor); break;
+                case 3: currentAction = CreateRandomWander(actor); break;
+            }
+        }
+        else
+        {
+            currentAction = CreateDrift(actor);
+        }
+    }
+
+    public static ActionData CreateAttack(Actor actor)
+    {
+        Vector2 next = actor.currentPos + actor.Velocity.normalized*20f;
+        return new ActionData(ActionType.ATTACK, next, 0f, SetupAttack, AttackUpdate);
+    }
+
+    public static ActionData CreateApproachTarget(Actor actor, Actor target)
+    {
+        Vector2 next = target.currentPos;
+        return new ActionData(ActionType.MOVE, next, 0f, SetupNormal, MovePositionUpdate);
     }
 
     public static ActionData CreateDrift(Actor actor)
@@ -165,6 +221,12 @@ public class AIAgent : MonoBehaviour
         return true;
     }
 
+    public static bool SetupAttack(float deltaTime, ActionData adata, Actor actor)
+    {
+        actor.attackQueued = true;
+        return true;
+    }
+
     public static bool MovePositionUpdate(float deltaTime, ActionData adata, Actor actor)
     {
         float min = 1f;
@@ -175,5 +237,10 @@ public class AIAgent : MonoBehaviour
     {
         adata.val -= deltaTime;
         return adata.val < 0f;
+    }
+
+    public static bool AttackUpdate(float deltaTime, ActionData adata, Actor actor)
+    {
+        return !actor.attackQueued;
     }
 }

@@ -31,7 +31,7 @@ public class FactoryEmoji : MonoBehaviour {
 
     public Sprite GetSprite(ImageProperties prop)
     {
-        Rect rect = new Rect(prop.rect.x, prop.rect.y, 64, 64);
+        Rect rect = new Rect(prop.rect.x, prop.rect.y, prop.rect.width, prop.rect.height);
         return Sprite.Create(masterImage,rect,Vector2.one,1f);
     }
 

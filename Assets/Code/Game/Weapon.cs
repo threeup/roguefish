@@ -86,6 +86,7 @@ public class Weapon : Entity
     {
         foreach(Actor actor in attackList)
         {
+            actor.ImmuneTimer = 0.75f;
             actor.AttachTo(null);   
         }
         attackList.Clear();

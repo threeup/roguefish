@@ -17,21 +17,36 @@ public class Constants
 	public static ImageProperties BootImgData 			= new ImageProperties(new Rect(896,1024,64,64));
 	public static ImageProperties HappyWhaleImgData 	= new ImageProperties(new Rect(896,64,64,64));
 	public static ImageProperties BigWhaleImgData 		= new ImageProperties(new Rect(896,768,64,64));
+	public static ImageProperties CloudImgData 			= new ImageProperties(new Rect(64,1728,64,64));
+	public static ImageProperties RainImgData 			= new ImageProperties(new Rect(1024,450,64,64));
+	public static ImageProperties LightningImgData 		= new ImageProperties(new Rect(128,1856,64,64));
 
 	public static ImageProperties StartImgData 			= new ImageProperties(new Rect(256,1216,64,64));
 	public static ImageProperties QuitImgData 			= new ImageProperties(new Rect(192,896,64,64));
-	public static ImageProperties HouseImgData 			= new ImageProperties(new Rect(630,508,64,64));
+	public static ImageProperties HouseImgData 			= new ImageProperties(new Rect(640,510,64,64));
+	public static ImageProperties LandImgData 			= new ImageProperties(new Rect(1415,1031,50,50));
 	public static ImageProperties MoonImgData5			= new ImageProperties(new Rect(320,576,64,64));
 	public static ImageProperties MoonImgData4			= new ImageProperties(new Rect(320,512,64,64));
 	public static ImageProperties MoonImgData3			= new ImageProperties(new Rect(320,448,64,64));
 	public static ImageProperties MoonImgData2			= new ImageProperties(new Rect(320,384,64,64));
 	public static ImageProperties MoonImgData1			= new ImageProperties(new Rect(320,256,64,64));
+	public static ImageProperties WifeImgDataNo			= new ImageProperties(new Rect(1540,384,64,64));
+	public static ImageProperties WifeImgDataYes		= new ImageProperties(new Rect(1540,0,64,64));
 
 
 	public static EntityProperties BoatData = new EntityProperties(
 		BoatImgData, 		PropType.BOAT, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,0f), new Vector2(100f,0f), 1f);
 	public static EntityProperties HookData = new EntityProperties(
 		HookImgData, 		PropType.HOOK, 10, 10, 10, 1f, 1f, 1f, new Vector2(999f,75f), new Vector2(999f,75f), 1f);
+
+	public static EntityProperties CloudData = new EntityProperties(
+		CloudImgData, 		PropType.BOAT, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,0f), new Vector2(100f,0f), 1f);
+	public static EntityProperties RainData = new EntityProperties(
+		RainImgData, 		PropType.HOOK, 10, 10, 10, 1f, 1f, 1f, new Vector2(999f,75f), new Vector2(999f,75f), 1f);
+	public static EntityProperties LightningData = new EntityProperties(
+		LightningImgData, 	PropType.HOOK, 10, 10, 10, 1f, 1f, 1f, new Vector2(999f,75f), new Vector2(999f,75f), 1f);
+
+
 	public static EntityProperties FishData = new EntityProperties(
 		FishImgData, 		PropType.FISH, 10, 10, 10, 1f, 1f, 1f, new Vector2(100f,65f),  new Vector2(60f,40f), 1f);
 	public static EntityProperties AngelFishData = new EntityProperties(
