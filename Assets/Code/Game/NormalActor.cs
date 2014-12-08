@@ -18,7 +18,7 @@ public class NormalActor : Actor
 
     public override void DestroySelf()
     {
-        Reset();
+        TurnOff();
         FactoryEntity.Instance.PoolActor(this);
     }
 

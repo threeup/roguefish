@@ -21,16 +21,23 @@ public class BoatActor : Actor
             healthDecayTimer = healthDecayRate;
         }
         base.UpdateEntity(deltaTime);
-        if (activeWeapon != null)
+        foreach(Weapon activeWeapon in activeWeapons)
         {
-            activeWeapon.desiredPos.x = this.currentPos.x;
-            if (buttonDown)
+            if (activeWeapon.propType == PropType.HOOK)
             {
-                activeWeapon.desiredPos.y = -1000f;
+                activeWeapon.desiredPos.x = this.currentPos.x;
+                if (buttonDown)
+                {
+                    activeWeapon.desiredPos.y = -1000f;
+                }
+                else
+                {
+                    activeWeapon.desiredPos.y = this.currentPos.y;
+                }
             }
             else
             {
-                activeWeapon.desiredPos.y = this.currentPos.y;
+                activeWeapon.desiredPos.y = -1000f;
             }
         }
 
@@ -42,7 +49,8 @@ public class BoatActor : Actor
 
     public override void DestroySelf()
     {
-        Reset();
+        Debug.Log("Destroy Boat");
+        TurnOff();
         FactoryEntity.Instance.PoolActor(this);
     }
 
@@ -52,7 +60,7 @@ public class BoatActor : Actor
         if (buttonDown)
         {
             this.desiredPos.x = click.Value.x;
-            if (activeWeapon == null)
+            if (activeWeapons.Count == 0)
             {
                 CreateWeapon();
             }
@@ -81,8 +89,9 @@ public class BoatActor : Actor
         Weapon otherWeapon = other.GetComponent<Weapon>();
         if (otherWeapon)
         {
-            if (otherWeapon.owner == this)
+            if (otherWeapon.owner == this && activeWeapons.Count > 0)
             {
+                Weapon activeWeapon = activeWeapons[0];
                 Actor hookedActor = activeWeapon.Pop();
                 if (hookedActor != null)
                 {
@@ -91,7 +100,7 @@ public class BoatActor : Actor
                         this.HP = Mathf.Min(this.HP+1,10);
                         this.progressRemaining -= 1;
                     }
-                    Debug.Log("Caught"+hookedActor);
+                    Debug.Log(this+"Caught"+hookedActor);
                 }
                 else
                 {

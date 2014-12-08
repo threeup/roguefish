@@ -46,16 +46,27 @@ public class Entity : MonoBehaviour
 
     protected virtual void Initialize()
     {
+        TurnOn();
+    }
+
+    public virtual void TurnOn()
+    {
+        collider.enabled = true;
+        if (img != null)
+        {
+            img.enabled = true;
+        }
+        this.enabled = true;
         World.Instance.Register(this);
         isValid = true;
     }
 
-    public virtual void Reset()
+    public virtual void TurnOff()
     {
         if (attachedParent != null)
         {
             Weapon weapon = attachedParent as Weapon;
-            if (weapon != null)
+            if (weapon != null && weapon.propType == PropType.HOOK)
             {
                 weapon.RemoveAttack(this as Actor);
             }
@@ -138,6 +149,11 @@ public class Entity : MonoBehaviour
         lowVel = prop.lowVel;
         highVel = prop.highVel;
         angularSpeed = prop.angularSpeed; 
+        if (prop.ttl > 0.01f)
+        {
+            hasTimeToLive = true;
+            timeToLive = prop.ttl;
+        }
     }
 
     private void SetPos(Vector2 pos)
@@ -165,7 +181,7 @@ public class Entity : MonoBehaviour
 
     public virtual void DestroySelf()
     {
-        Reset();
+        TurnOff();
         Debug.LogWarning("Cant destroy generic");
     }
 

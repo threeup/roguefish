@@ -36,7 +36,7 @@ public class World : MonoBehaviour {
         machine.AddEnterListener(OnBusy);
         
         machine.SetState(GeneralState.READY);
-        
+
         Utilities.SortChildren(playField.gameObject);
     }
 
@@ -58,7 +58,7 @@ public class World : MonoBehaviour {
         Actor actor = FactoryEntity.Instance.GetBoatActor(Constants.BoatData);
         actor.name = "Boat";
         actor.WarpTo(Vector3.up*156f);
-        actor.transform.localScale = Vector3.one*2f;
+        actor.transform.localScale = Vector3.one*1.4f;
         actor.transform.SetParent(playField.transform, false);
 
         Ability hook = new Ability(Constants.HookData, "HOOK");
@@ -87,6 +87,8 @@ public class World : MonoBehaviour {
 
         AIAgent cloudAI = actor.gameObject.AddComponent<AIAgent>();
         cloudAI.Initialize(actor, AIAgent.AgentType.ATTACK);
+
+        actor.collider.enabled = false;
         return actor;
     }
 

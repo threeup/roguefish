@@ -14,7 +14,8 @@ public class Actor : Entity
     public int HP = 1;
     public int AP = 1;
     public List<Ability> abilities;
-    public Weapon activeWeapon;
+    public List<Weapon> activeWeapons;
+    public int maxWeapons = 1;
     public ThreatList threatList = null;
     public bool attackQueued = false;
 
@@ -33,9 +34,9 @@ public class Actor : Entity
         base.Initialize();
     }
 
-    public override void Reset()
+    public override void TurnOff()
     {
-        base.Reset();
+        base.TurnOff();
     }
 
     public override void DestroySelf()
@@ -123,10 +124,20 @@ public class Actor : Entity
             }
             if (ability.CanUseAbility(this))
             {
-                activeWeapon = ability.Execute(this);
-                attackQueued = false;
+                Weapon activeWeapon = ability.Execute(this);
+                activeWeapon.WarpTo(this.currentPos);
+                activeWeapons.Add(activeWeapon);
+                if (activeWeapons.Count >= maxWeapons)
+                {
+                    attackQueued = false;
+                }
             }
         }        
+    }
+
+    public void TakeDamage(int val)
+    {
+        this.HP -= val;
     }
 
 }

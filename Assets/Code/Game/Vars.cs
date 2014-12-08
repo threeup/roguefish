@@ -37,13 +37,12 @@ public struct CommandProperties
 public enum PropType
 {
     BOAT,
-    HOOK,
     FISH,
     TURT,
     BOOT,
     WHAL,
-    RAIN,
-    LIGHTNING,
+    HOOK,
+    FREE,
 }
 
 
@@ -61,8 +60,9 @@ public struct EntityProperties
     public Vector2 highVel;
     public Vector2 lowVel;
     public float angularSpeed;
+    public float ttl;
 
-    public EntityProperties(ImageProperties imgProp, PropType propType, int hp, int ap, int rp, float rpregen, float mass, float radius, Vector2 highVel, Vector2 lowVel, float angularSpeed)
+    public EntityProperties(ImageProperties imgProp, PropType propType, int hp, int ap, int rp, float rpregen, float mass, float radius, Vector2 highVel, Vector2 lowVel, float angularSpeed, float ttl)
     {
         this.imgProp = imgProp;        
         this.propType = propType;        
@@ -75,6 +75,7 @@ public struct EntityProperties
         this.lowVel = lowVel;        
         this.angularSpeed = angularSpeed;        
         this.rpregen = rpregen;        
+        this.ttl = ttl;
     }
 }
 

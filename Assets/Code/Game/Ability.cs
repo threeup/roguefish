@@ -28,6 +28,8 @@ public class Ability
         weap.transform.localScale = Vector3.one*1f;
         World.Instance.ParentToField(weap.transform);
         weap.owner = actor;
+        weap.TurnOn();
+        Debug.Log("Created weap"+actor);
         return weap;
     }
 

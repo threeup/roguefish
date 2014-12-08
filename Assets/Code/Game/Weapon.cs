@@ -26,11 +26,6 @@ public class Weapon : Entity
         base.Initialize();
     }
 
-    public override void Reset()
-    {
-        base.Reset();
-    }
-
     public override void UpdateEntity(float deltaTime)
     {
         base.UpdateEntity(deltaTime);
@@ -44,7 +39,13 @@ public class Weapon : Entity
 
     public override void DestroySelf()
     {
-        Reset();
+        foreach(Actor actor in attackList)
+        {
+            actor.hasTimeToLive = true;
+            actor.timeToLive = 0f;
+        }
+        Debug.Log("weapon destroyed");
+        TurnOff();
         FactoryEntity.Instance.PoolWeapon(this);
     }
 
@@ -64,12 +65,23 @@ public class Weapon : Entity
 
     public void AddAttack(Actor actor)
     {
-        if (attackList.Contains(actor))
+        if (actor.propType == PropType.BOAT)
         {
+            actor.TakeDamage(1);
+            hasTimeToLive = true;
+            timeToLive = 0f;
             return;
         }
-        attackList.Add(actor);
-        actor.AttachTo(this);
+        if (this.propType == PropType.HOOK)
+        {
+            if (attackList.Contains(actor))
+            {
+                return;
+            }
+            attackList.Add(actor);
+            actor.AttachTo(this);
+        }
+
     }
 
     public void RemoveAttack(Actor actor)
@@ -100,7 +112,14 @@ public class Weapon : Entity
             attackList.RemoveAt(0);
             if (actor != null)
             {
-                actor.BecomeDead();
+                if (actor.propType == PropType.FISH)
+                {
+                    actor.BecomeDead();
+                }
+                if (actor.propType == PropType.BOAT)
+                {
+                    actor.TakeDamage(1);
+                }
                 return actor;
             }
         }
